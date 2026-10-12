@@ -1,0 +1,155 @@
+# golden set - fill in the two observation columns
+#
+# ref_rank : on the iOS NATIVE Microsoft Shuangpin keyboard, type `code`
+#            and write the position of the target word in the candidate
+#            list. 1 = first candidate, 2 = second, 0 = not on the page.
+# our_rank : the same on OUR Rime scheme. Leave blank if untested.
+#
+# Actionable output = words where our_rank - ref_rank >= 2.
+#
+category	word	code	ref_rank	our_rankpinyin	lookup
+日常	今天	jntm			jin tian	pinyin/base
+日常	明天	m;tm			ming tian	pinyin/base
+日常	昨天	zotm			zuo tian	pinyin/base
+日常	现在	xmzl			xian zai	pinyin/base
+日常	时间	uijm			shi jian	pinyin/base
+日常	吃饭	iifj			chi fan	pinyin/base
+日常	睡觉	uvjc			shui jiao	pinyin/base
+日常	洗澡	xizk			xi zao	pinyin/base
+日常	谢谢	xxxx			xie xie	pinyin/base
+日常	对不起	dvbuqi			dui bu qi	pinyin/base
+日常	没关系	mzgrxi			mei guan xi	pinyin/base
+日常	麻烦	mafj			ma fan	pinyin/base
+日常	天气	tmqi			tian qi	pinyin/base
+日常	下雨	xwyy			xia yu	pinyin/base
+日常	公园	gsyr			gong yuan	pinyin/base
+日常	医院	yiyr			yi yuan	pinyin/base
+日常	超市	ikui			chao shi	pinyin/base
+日常	快递	kydi			kuai di	pinyin/base
+日常	外卖	wlml			wai mai	pinyin/base
+日常	打车	daie			da che	pinyin/base
+日常	地铁	ditx			di tie	pinyin/base
+日常	手机	ubji			shou ji	pinyin/base
+日常	充电	isdm			chong dian	pinyin/base
+日常	照片	vkpm			zhao pian	pinyin/base
+日常	视频	uipn			shi pin	pinyin/base
+日常	微信	wzxn			wei xin	pinyin/base
+日常	朋友圈	pgybqr			peng you quan	pinyin/base
+日常	淘宝	tkbk			tao bao	pinyin/base
+日常	多少钱	doukqm			duo shao qian	pinyin/base
+日常	便宜	bmyi			bian yi	pinyin/base
+办公	会议	hvyi			hui yi	pinyin/base
+办公	纪要	jiyk			ji yao	pinyin/base
+办公	汇报	hvbk			hui bao	pinyin/base
+办公	方案	fhaj			fang an	pinyin/base
+办公	需求	xyqq			xu qiu	pinyin/base
+办公	进度	jndu			jin du	pinyin/base
+办公	排期	plqi			pai qi	pinyin/base
+办公	评审	p;uf			ping shen	pinyin/base
+办公	上线	uhxm			shang xian	pinyin/base
+办公	值班	vibj			zhi ban	pinyin/base
+办公	加班	jwbj			jia ban	pinyin/base
+办公	报销	bkxc			bao xiao	pinyin/base
+办公	发票	fapc			fa piao	pinyin/base
+办公	合同	hets			he tong	pinyin/base
+办公	邮件	ybjm			you jian	pinyin/base
+办公	附件	fujm			fu jian	pinyin/base
+办公	客户	kehu			ke hu	pinyin/base
+办公	项目	xdmu			xiang mu	pinyin/base
+办公	预算	yysr			yu suan	pinyin/base
+办公	复盘	fupj			fu pan	pinyin/base
+办公	流程	lqig			liu cheng	pinyin/base
+办公	审批	ufpi			shen pi	pinyin/base
+办公	截止	jxvi			jie zhi	pinyin/base
+办公	同步	tsbu			tong bu	pinyin/base
+办公	沟通	gbts			gou tong	pinyin/base
+办公	确认	qtrf			que ren	pinyin/base
+办公	安排	ajpl			an pai	pinyin/base
+办公	跟进	gfjn			gen jin	pinyin/base
+办公	对接	dvjx			dui jie	pinyin/base
+办公	产出	ijiu			chan chu	pinyin/base
+专业	算法	srfa			suan fa	pinyin/base
+专业	编译	bmyi			bian yi	pinyin/base
+专业	缓存	hrcp			huan cun	pinyin/base
+专业	并发	b;fa			bing fa	pinyin/base
+专业	分布式	ffbuui			fen bu shi	pinyin/base
+专业	数据库	uujyku			shu ju ku	pinyin/base
+专业	内存泄漏	nzcpxxlb			nei cun xie lou	pinyin/base
+专业	版本控制	bjbfksvi			ban ben kong zhi	pinyin/base
+专业	单元测试	djyrceui			dan yuan ce shi	pinyin/base
+专业	灰度发布	hvdufabu			hui du fa bu	pinyin/ext
+专业	容器化	rsqihw			rong qi hua	composed/tencent-entry (polyphone readings may differ)
+专业	微服务	wzfuwu			wei fu wu	pinyin/base
+专业	负载均衡	fuzljphg			fu zai jun heng	pinyin/base
+专业	中间件	vsjmjm			zhong jian jian	pinyin/base
+专业	迭代器	dxdlqi			die dai qi	pinyin/base
+专业	哈希表	haxibc			ha xi biao	pinyin/base
+专业	死锁	siso			si suo	pinyin/base
+专业	幂等	midg			mi deng	pinyin/base
+专业	重构	isgb			chong gou	pinyin/base
+专业	部署	buuu			bu shu	pinyin/base
+专业	回滚	hvgp			hui gun	pinyin/base
+专业	限流	xmlq			xian liu	pinyin/base
+专业	熔断	rsdr			rong duan	pinyin/base
+专业	监控	jmks			jian kong	pinyin/base
+专业	日志	rivi			ri zhi	pinyin/base
+专业	索引	soyn			suo yin	pinyin/base
+专业	事务	uiwu			shi wu	pinyin/base
+专业	序列化	xylxhw			xu lie hua	pinyin/base
+专业	反序列化	fjxylxhw			fan xu lie hua	pinyin/base
+专业	线程池	xmigii			xian cheng chi	pinyin/base
+中英混输	WiFi密码	wifimima				norm-code
+中英混输	5G网络	wugwhlo				code/cn_en
+中英混输	USB接口	usbjxkb				code/cn_en
+中英混输	CPU占用					GAP-not-in-dictionary
+中英混输	API文档					GAP-not-in-dictionary
+中英混输	Git提交					GAP-not-in-dictionary
+中英混输	bug修复					GAP-not-in-dictionary
+中英混输	iPhone	iPhone				code/en_ext
+中英混输	PPT模板					GAP-not-in-dictionary
+中英混输	Excel表格					GAP-not-in-dictionary
+中英混输	PDF文件					GAP-not-in-dictionary
+中英混输	URL链接					GAP-not-in-dictionary
+中英混输	GitHub	GitHub				code/en_ext
+中英混输	Docker	docker				code/en
+中英混输	Linux	Linux				code/en
+中英混输	Python	python				code/en
+中英混输	JSON	JSON				code/en_ext
+中英混输	App	app				code/en
+中英混输	Web	web				code/en
+中英混输	ID	id				code/en_ext
+成语	一鸣惊人	yim;j;rf			yi ming jing ren	pinyin/base
+成语	画蛇添足	hwuetmzu			hua she tian zu	pinyin/base
+成语	守株待兔	ubvudltu			shou zhu dai tu	pinyin/base
+成语	亡羊补牢	whyhbulk			wang yang bu lao	pinyin/base
+成语	按部就班	ajbujqbj			an bu jiu ban	pinyin/base
+成语	一如既往	yirujiwh			yi ru ji wang	pinyin/base
+成语	实事求是	uiuiqqui			shi shi qiu shi	pinyin/base
+成语	举一反三	jyyifjsj			ju yi fan san	pinyin/base
+成语	循序渐进	xpxyjmjn			xun xu jian jin	pinyin/base
+成语	融会贯通	rshvgrts			rong hui guan tong	pinyin/base
+成语	水到渠成	uvdkqyig			shui dao qu cheng	pinyin/base
+成语	未雨绸缪	wzyyibmb			wei yu chou mou	pinyin/base
+成语	望文生义	whwfugyi			wang wen sheng yi	pinyin/base
+成语	因地制宜	yndiviyi			yin di zhi yi	pinyin/base
+成语	有条不紊	ybtcbuwf			you tiao bu wen	pinyin/base
+易混	的	de			de	pinyin/8105
+易混	得	de			de	pinyin/8105
+易混	地	de			de	pinyin/8105
+易混	在	zl			zai	pinyin/8105
+易混	再	zl			zai	pinyin/8105
+易混	做	zo			zuo	pinyin/8105
+易混	作	zo			zuo	pinyin/8105
+易混	账	vh			zhang	pinyin/8105
+易混	帐	vh			zhang	pinyin/8105
+易混	份	ff			fen	pinyin/8105
+易混	分	ff			fen	pinyin/8105
+易混	其他	qita			qi ta	pinyin/base
+易混	其它	qita			qi ta	pinyin/mspy_overrides
+易混	需要	xyyk			xu yao	pinyin/base
+易混	须要	xyyk			xu yao	pinyin/base
+易混	必须	bixy			bi xu	pinyin/base
+易混	必需	bixy			bi xu	pinyin/base
+易混	权利	qrli			quan li	pinyin/base
+易混	权力	qrli			quan li	pinyin/base
+易混	制定	vid;			zhi ding	pinyin/base

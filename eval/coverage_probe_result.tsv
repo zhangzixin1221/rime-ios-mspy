@@ -1,0 +1,124 @@
+# golden set - fill in the two observation columns
+#
+# ref_rank : on the iOS NATIVE Microsoft Shuangpin keyboard, type `code`
+#            and write the position of the target word in the candidate
+#            list. 1 = first candidate, 2 = second, 0 = not on the page.
+# our_rank : the same on OUR Rime scheme. Leave blank if untested.
+#
+# Actionable output = words where our_rank - ref_rank >= 2.
+#
+category	word	code	ref_rank	our_rankpinyin	lookup
+异形词	其它	qita			qi ta	pinyin/mspy_overrides
+异形词	账本	vhbf			zhang ben	pinyin/base
+异形词	帐户	vhhu			zhang hu	pinyin/mspy_overrides
+异形词	账户	vhhu			zhang hu	pinyin/base
+异形词	按耐	ajnl			an nai	pinyin/others
+异形词	按捺	ajna			an na	pinyin/base
+异形词	渡过	dugo			du guo	pinyin/base
+异形词	度过	dugo			du guo	pinyin/base
+异形词	订金	d;jn			ding jin	pinyin/base
+异形词	定金	d;jn			ding jin	pinyin/base
+异形词	必需	bixy			bi xu	pinyin/base
+异形词	必须	bixy			bi xu	pinyin/base
+异形词	反应	fjy;			fan ying	pinyin/base
+异形词	反映	fjy;			fan ying	pinyin/base
+异形词	权力	qrli			quan li	pinyin/base
+异形词	权利	qrli			quan li	pinyin/base
+异形词	启示	qiui			qi shi	pinyin/base
+异形词	启事	qiui			qi shi	pinyin/base
+网络新词	点赞	dmzj			dian zan	pinyin/base
+网络新词	打卡	daka			da ka	pinyin/base
+网络新词	内卷	nzjr			nei juan	pinyin/base
+网络新词	躺平	thp;			tang ping	pinyin/base
+网络新词	破防	pofh			po fang	pinyin/base
+网络新词	直播	vibo			zhi bo	pinyin/base
+网络新词	带货	dlho			dai huo	pinyin/base
+网络新词	短视频	druipn			duan shi pin	pinyin/ext
+网络新词	弹幕	djmu			dan mu	pinyin/base
+网络新词	云盘	yppj			yun pan	pinyin/base
+网络新词	拼车	pnie			pin che	pinyin/base
+网络新词	外卖员	wlmlyr			wai mai yuan	pinyin/ext
+网络新词	快递员	kydiyr			kuai di yuan	pinyin/base
+网络新词	网约车	whytie			wang yue che	pinyin/base
+网络新词	扫码	skma			sao ma	pinyin/base
+网络新词	刷脸	uwlm			shua lian	pinyin/base
+网络新词	围脖	wzbo			wei bo	pinyin/base
+网络新词	打赏	dauh			da shang	pinyin/base
+网络新词	粉丝	ffsi			fen si	pinyin/base
+网络新词	热搜	resb			re sou	pinyin/base
+开发术语	容器化	rsqihw			rong qi hua	composed/tencent-entry (polyphone readings may differ)
+开发术语	微前端	wzqmdr			wei qian duan	composed/tencent-entry (polyphone readings may differ)
+开发术语	灰度	hvdu			hui du	pinyin/base
+开发术语	埋点	mldm			mai dian	pinyin/base
+开发术语	抓包	vwbk			zhua bao	pinyin/base
+开发术语	断点	drdm			duan dian	pinyin/base
+开发术语	联调	lmtc			lian tiao	pinyin/base
+开发术语	压测	yace			ya ce	pinyin/base
+开发术语	白盒	blhe			bai he	pinyin/base
+开发术语	黑盒	hzhe			hei he	pinyin/base
+开发术语	沙箱	uaxd			sha xiang	pinyin/base
+开发术语	冷启动	lgqids			leng qi dong	pinyin/base
+开发术语	热更新	reggxn			re geng xin	pinyin/base
+开发术语	端到端	drdkdr			duan dao duan	pinyin/base
+开发术语	分库分表	ffkuffbc			fen ku fen biao	pinyin/base
+开发术语	读写分离	duxxffli			du xie fen li	pinyin/base
+开发术语	消息队列	xcxidvlx			xiao xi dui lie	pinyin/base
+开发术语	服务网格	fuwuwhge			fu wu wang ge	composed/tencent-entry (polyphone readings may differ)
+开发术语	边缘计算	bmyrjisr			bian yuan ji suan	composed/tencent-entry (polyphone readings may differ)
+开发术语	大模型	damox;			da mo xing	pinyin/ext
+开发术语	微调	wztc			wei tiao	pinyin/base
+开发术语	提示词	tiuici			ti shi ci	pinyin/base
+开发术语	向量库	xdldku			xiang liang ku	pinyin/mspy_overrides
+开发术语	脚手架	jcubjw			jiao shou jia	pinyin/base
+常用口语	一下	yixw			yi xia	pinyin/base
+常用口语	一点	yidm			yi dian	pinyin/base
+常用口语	一会儿	yihver			yi hui er	pinyin/base
+常用口语	没关系	mzgrxi			mei guan xi	pinyin/base
+常用口语	不好意思	buhkyisi			bu hao yi si	pinyin/base
+常用口语	麻烦你	mafjni			ma fan ni	pinyin/base
+常用口语	辛苦了	xnkule			xin ku le	pinyin/base
+常用口语	加油	jwyb			jia you	pinyin/base
+常用口语	好的	hkde			hao de	pinyin/base
+常用口语	收到	ubdk			shou dao	pinyin/base
+常用口语	在吗	zlma			zai ma	pinyin/base
+常用口语	稍等	ukdg			shao deng	pinyin/base
+常用口语	马上	mauh			ma shang	pinyin/base
+常用口语	刚才	ghcl			gang cai	pinyin/base
+常用口语	顺便	upbm			shun bian	pinyin/base
+常用口语	要不	ykbu			yao bu	pinyin/base
+常用口语	算了	srle			suan le	pinyin/base
+常用口语	随便	svbm			sui bian	pinyin/base
+常用口语	无所谓	wusowz			wu suo wei	pinyin/base
+常用口语	差不多	iabudo			cha bu duo	pinyin/base
+生活常用	充电宝	isdmbk			chong dian bao	pinyin/base
+生活常用	充电器	isdmqi			chong dian qi	pinyin/base
+生活常用	数据线	uujyxm			shu ju xian	pinyin/base
+生活常用	耳机	erji			er ji	pinyin/base
+生活常用	键盘	jmpj			jian pan	pinyin/base
+生活常用	鼠标	uubc			shu biao	pinyin/base
+生活常用	显示器	xmuiqi			xian shi qi	pinyin/base
+生活常用	路由器	luybqi			lu you qi	pinyin/base
+生活常用	洗衣机	xiyiji			xi yi ji	pinyin/base
+生活常用	冰箱	b;xd			bing xiang	pinyin/base
+生活常用	空调	kstc			kong tiao	pinyin/base
+生活常用	热水器	reuvqi			re shui qi	pinyin/base
+生活常用	微波炉	wzbolu			wei bo lu	pinyin/base
+生活常用	电饭煲	dmfjbk			dian fan bao	pinyin/base
+生活常用	拖把	toba			tuo ba	pinyin/base
+生活常用	垃圾桶	lajits			la ji tong	pinyin/base
+生活常用	洗发水	xifauv			xi fa shui	pinyin/base
+生活常用	沐浴露	muyylu			mu yu lu	pinyin/base
+生活常用	牙膏	yagk			ya gao	pinyin/base
+生活常用	毛巾	mkjn			mao jin	pinyin/base
+人名地名	北京	bzj;			bei jing	pinyin/base
+人名地名	上海	uhhl			shang hai	pinyin/base
+人名地名	广州	gdvb			guang zhou	pinyin/base
+人名地名	深圳	ufvf			shen zhen	pinyin/base
+人名地名	杭州	hhvb			hang zhou	pinyin/base
+人名地名	成都	igdu			cheng du	pinyin/base
+人名地名	武汉	wuhj			wu han	pinyin/base
+人名地名	西安	xiaj			xi an	pinyin/base
+人名地名	南京	njj;			nan jing	pinyin/base
+人名地名	重庆	isq;			chong qing	pinyin/base
+人名地名	苏州	suvb			su zhou	pinyin/base
+人名地名	天津	tmjn			tian jin	pinyin/base

@@ -1,0 +1,413 @@
+# ══════════════════════════════════════════════════════════════
+#  「仓输入法」(Hamster) 应用配置补丁 —— 复刻 iOS 原生
+# ══════════════════════════════════════════════════════════════
+#
+# 语法：patch 下用【斜杠路径】（keyboard/xxx），这是仓/Rime 的标准补丁写法，
+#       与官方文档里的 `swipe/keyboardSwipe/+` 一致。
+#
+# 键名来源（三重交叉验证）：
+#   1. 已闭源 App 的默认模板 Resources/SharedSupport/hamster.yaml
+#      （GitHub imfuxiao/Hamster；2.0.1 / 2.1.0 / main 三个版本该文件一致）
+#   2. Swift 解码器的 CodingKeys（真实的解码键名）
+#   3. 官方文档站（当前对应 2.19.x）
+#
+# ⚠️ 重要：模板来自仓库最后一版（2.1.0，闭源前），而你现在装的是 2.19.x。
+#    两者在【配色键名】上有已知差异，见下面 colorSchemas 里的说明。
+#
+# ⚠️ 最重要的一条注意（仓官方 FAQ 明确写了）：
+#    「界面设置」的优先级【高于】配置文件。
+#    如果你之前在 App 设置界面里手动调过某一项，配置文件里对应的改动
+#    就不会生效。要让它生效，先去「关于」页面点「重置界面设置」。
+#
+# 改完需在「RIME → 重新部署」后生效。
+# ══════════════════════════════════════════════════════════════
+
+patch:
+
+  # ════════════════════════════════════════════════════════════
+  # 一、工具栏（= iOS 的候选栏）
+  # ════════════════════════════════════════════════════════════
+
+  # 工具栏总高度 = 拼写区高度 + 候选行高度
+  #
+  # ⚠️ 这里必须留足候选行的垂直空间，否则候选高亮框会顶出工具栏上沿。
+  #   曾经设成 40（依据仓设置界面里「开启内嵌模式后建议工具栏高度为 40」
+  #   那句提示），但工具栏内部还要分走 heightOfCodingArea: 10，
+  #   候选行只剩 30pt —— 候选字号 18pt 加上内边距和阴影装不下，
+  #   于是第一个候选的框左上角会超出整个输入栏。已改回 50。
+  #
+  # ⚠️ 已退回 50（你最后一次确认正常时的值）。
+  #   54 是我为了修「候选框顶出」而改的，但那个假设后来被证伪了 ——
+  #   真因是候选栏左端的图标按钮（见下 displayAppIconButton）。
+  #   所以 54/14 这组值没有解决的问题，退回到确认可用的 50/10。
+  toolbar/heightOfToolbar: 50
+
+  # 拼写区（预编辑区）高度。开了内嵌模式后组字内嵌到输入框里，
+  # 这块不显示内容，但它的高度会被从工具栏里扣掉 ——
+  # 所以它同时起到「让候选行离工具栏上沿有间距」的作用。
+  # 若候选框仍然顶到上沿，把这个值加大（见下面的调参阶梯）。
+  # 已退回 10（你最后一次确认正常时的值）。
+  #   14 同样来自那个被证伪的「下移候选行」假设，一并退回。
+  #   若以后仍需对付候选框顶出，这个值是可以加大的杠杆（10 → 14 → 20），
+  #   但请同时把 heightOfToolbar 同比加大以保持候选行高度。
+  toolbar/heightOfCodingArea: 10
+
+  # ── iPhone 16 Pro Max 几何基准（用于核对，不是配置项）──
+  #   屏幕 440 × 956 pt / 1320 × 2868 px / @3x / 460 ppi
+  #   iOS 键盘按键（按文档那套 iOS 实测值等比换算到本机）：
+  #     字母键可视宽度  1320 / 10 = 132 px = 44 pt
+  #     按键高度        126 px = 42 pt
+  #     左右留白合计    18 px = 6 pt（每侧 3 pt）
+  #     圆角            15 px = 5 pt
+  #     按键底部阴影    3 px = 1 pt
+  #   注意：按键的宽高/间距/圆角由仓按设备自动换算（皮肤布局是比例式的），
+  #   hamster.yaml 里【没有】按机型设置几何的键，所以这里不需要、也无法
+  #   为 16 Pro Max 单独写按键尺寸。本文件能调的只有工具栏高度和字号。
+  #
+  # ── 「候选框顶出工具栏」：已定位并解决 ──
+  #   我先后猜过两个原因，都错了：①垂直空间不足（加大 heightOfToolbar 无效）；
+  #   ②编码区条带把框挤出去（未验证）。
+  #   真实原因：候选栏【左端有一个图标按钮】（App icon / 收起键盘），
+  #   它压在第一个候选的高亮框上，表现为框的左上角探出输入栏。
+  #   在「键盘设置」里关掉那两个按钮即消失。
+  #   ⚠️ 因为仓的界面设置优先于本文件，实际生效的是界面里的开关；
+  #     下面 displayAppIconButton / displayKeyboardDismissButton 两行是
+  #     同一修复的配置侧备份，防止界面设置被重置后问题复现。
+
+  # ════════════════════════════════════════════════════════════
+  # 字体与字号
+  # ════════════════════════════════════════════════════════════
+  # hamster.yaml 里【只有下面这 4 个字号键】，而且全在候选栏段。
+  #
+  # 候选文字字号 = 18。
+  #   依据：iOS 键盘按键标签约 22pt（42pt 高的键），
+  #   候选栏文字明显比按键字小一号，约 17~18pt。18 在合理区间。
+  #   ★ 想微调【不必重新打包】：仓 → 键盘设置 → 候选栏设置 →
+  #     「候选文字字体大小」，改完立刻见效（界面设置优先于本文件）。
+  # 候选文字字号 = 16。
+  #   18 → 16 的理由（两个都成立）：
+  #   ① 【缩小候选白底】白底是包裹候选文字的，字号变小 → 白底等比变小。
+  #      这是 hamster.yaml 里唯一能间接缩小它的杠杆
+  #      （尺寸的直接控制键只存在于皮肤的 candidateStyle.insets）。
+  #   ② 【更接近 iOS】iOS 候选栏文字明显比按键标签（约 22pt）小一号，
+  #      16 比 18 更贴近原生的观感。
+  #   ★ 想微调【不必重新打包】：仓 → 键盘设置 → 候选栏设置 →
+  #     「候选文字字体大小」，改完立刻见效（界面设置优先于本文件）。
+  toolbar/candidateWordFontSize: 16
+  # 候选序号字号（我们关了序号显示，此项不生效）
+  toolbar/candidateLabelFontSize: 12
+  # 候选备注（comment）字号（我们关了 comment 显示，此项不生效）
+  toolbar/candidateCommentFontSize: 12
+  # 拼写区字号。开了内嵌模式后组字内嵌到输入框里，这块不显示内容。
+  # ★ 内嵌的拼音用的是【宿主 App 文本的字体】，所以它的字体天然就和
+  #   iOS 原生一致，不需要我们调 —— 这也是内嵌模式最接近原生的一点。
+  # 保持 12 而非改大：它参与 toolbar 的高度分配，改大可能挤到候选行。
+  toolbar/codingAreaFontSize: 12
+
+  # ── 字体与字号的边界（哪些能配、哪些不能）──
+  #
+  # ✅ 能配（本文件）：
+  #      候选栏文字/序号/备注字号、拼写区字号
+  #
+  # ✅ 能配（仓界面，优先于本文件，且即时生效）：
+  #      · 键盘设置 → 候选栏设置 → 候选文字字体大小 / 序号 / Comment
+  #      · 仓的「字体」设置 → 一次设置，全部键盘生效（字体族）
+  #
+  # ❌ 不能配（本文件里没有这些键）：
+  #      · 按键标签（q w e r…、⇧、⌫、回车、空格）的【字号】
+  #      · 按键标签的【字重】
+  #      · 字母显示大写还是小写 → 唯一例外！见 keyboard 段的
+  #        showUppercasedCharacterOnChineseKeyboard，那个可以配。
+  #
+  # ❌ 按键标签字号/字重 的两条实现路径（都是大工程，且我无法离线验证）：
+  #      1) 自定义键盘：KeyStyle 支持 fontSize / swipeFontSize
+  #         （custom_keyboard.mdx 312–326 行），但内置「中文26键」不是
+  #         自定义键盘，要改就得完整重写 32 键 × 4 种键盘的 action/label/划动。
+  #         漏一个 action 某个键就失灵 —— 失败代价比"难看"严重得多。
+  #      2) 键盘皮肤：样式里可按 fontSize / fontWeight 逐个设，
+  #         还能一并解决回车键颜色（returnButtonStyle）和候选区内距
+  #         （candidateStyle.insets），但要写约 1500–2000 行 YAML。
+  #
+  # 按仓文档，字体族也可以由皮肤用 fontFace 指定；
+  # 若不写皮肤，用仓的「字体」界面设置即可，默认本就是 iOS 系统字体
+  # （拉丁 SF Pro、中文回退 PingFang SC），与原生一致。
+
+  # iOS 原生候选栏【不显示序号】
+  toolbar/displayIndexOfCandidateWord: false
+
+  # iOS 原生候选栏【不显示拼音注释】
+  # 注意：rime-ice 方案里设了 always_show_comments: true，那是给
+  # corrector.lua（错音提示）做判断用的，必须保留；这里只是「不显示」，
+  # Lua 逻辑照常工作。这才是正确的关闭位置。
+  toolbar/displayCommentOfCandidateWord: false
+
+  # iOS 的候选栏【左右两端没有任何按钮】。
+  # 显式关掉这两项：万一有残留的界面设置或新版默认值在候选栏左端放了一个
+  # 图标按钮 / 收起键盘按钮，它会正好压在第一个候选的高亮框上，
+  # 表现就是「第一个候选的框左上角探出输入栏」。
+  # ⚠️ 仓的界面设置优先于配置文件，所以也请去「键盘设置」里确认这两项是关的。
+  toolbar/displayAppIconButton: false
+  toolbar/displayKeyboardDismissButton: false
+
+  # ════════════════════════════════════════════════════════════
+  # 二、键盘
+  # ════════════════════════════════════════════════════════════
+
+  # 中文 26 键（我们的双拼就跑在这个布局上）
+  keyboard/useKeyboardType: chinese
+
+  # ★★★ 微软双拼的硬需求 ★★★
+  # 微软双拼把 ing 放在分号键上，键盘【必须】有 ; 键。
+  # 仓内置了这个开关，打开即可 —— 不需要自己写键盘布局。
+  keyboard/displaySemicolonButton: true
+
+  # ★ iOS 原生外观的关键 ★
+  # iOS 原生中文键盘【没有独立的拼音条】，你敲的字母直接内嵌在输入框里
+  # （marked text）。开启内嵌模式后预编辑区隐藏、组字内嵌，
+  # 才是原生那种观感。不开这个，外观第一眼就不像。
+  keyboard/enableEmbeddedInputMode: true
+
+  # iOS 原生的数字键盘是 123 横排，不是九宫格 → 关
+  keyboard/enableNineGridOfNumericKeyboard: false
+
+  # iOS 原生的符号键盘是分页布局，不是分类布局 → 关
+  keyboard/enableSymbolKeyboard: false
+
+  # 按键按下的放大气泡。
+  # 这个【要开着】：仓文档那张「仿系统键盘按键设计」的 iOS 参数表本身就
+  # 列出了「气泡边框 / 气泡阴影」的颜色，说明仓的「气泡」对应的正是
+  # iOS 按下按键时上方浮出的放大字符。
+  keyboard/displayButtonBubbles: true
+
+  # 按键音：关掉（按你的要求，改用震动反馈）
+  keyboard/enableKeySounds: false
+
+  # ★ 触控震动反馈 ★
+  # 仓内置了这个能力但默认是关的。iOS 原生键盘的轻触反馈就是对应这一项。
+  keyboard/enableHapticFeedback: true
+
+  # 震动强度。模板默认 3。
+  # 也可以在「仓 → 设置 → 按键音与震动」子页面里调（⚠️ 界面设置优先于配置文件，
+  # 你在界面里调过之后，这里的值就不生效了）。
+  keyboard/hapticFeedbackIntensity: 3
+
+  # 中文 26 键上字母显示【小写】
+  #   （原先我按仓 2.1.0 模板的默认值配了 true=大写，并误以为原生也是大写。
+  #     经你在 iPhone 原生中文键盘上实测确认是【小写】，已改为 false。）
+  # ✅ 已按原生实测修正：改成 false（显示小写字母）。
+  #   依据：你在 iPhone 原生中文键盘上确认，Shift 未按下时键上是 q w e r（小写）。
+  #   这也符合 iOS 自 iOS 9 起的行为 —— 键盘在 Shift 未按下时显示小写字母。
+  #   ⚠️ 仓 2.1.0 模板的默认值是 true（大写），与本机原生不一致，别改回去。
+  keyboard/showUppercasedCharacterOnChineseKeyboard: false
+
+  # 按键下方边框（= iOS 按键底部那道阴影）
+  keyboard/enableButtonUnderBorder: true
+
+  # ── 配色方案：纯配置复刻外观的入口 ──
+  #
+  # ⚠️⚠️ 颜色格式是 【BGR】（0xAABBGGRR），不是 RGB！⚠️⚠️
+  #   仓的「配色方案」沿用鼠须管格式：0x + 2位透明度 + BB GG RR。
+  #     例：iOS 键盘底色 RGB = D1D2D9  →  写成 0xFCD9D2D1
+  #   漏了这一步会把 R 和 B 调换，浅色模式的背景色会明显偏暖。
+  #   （注意：仓的「键盘皮肤」skin config 是【另一套】机制，那里用 RGB
+  #     且透明度在后两位、不写 0x —— 两个别混。本文件用的是配色方案。）
+  keyboard/enableColorSchema: false
+  keyboard/useColorSchemaForLight: ios_native_light
+  keyboard/useColorSchemaForDark: ios_native_dark
+
+  # ⚠️ 为什么不启用？（这是查证后的结论，不是偷懒）
+  #
+  # 我读了仓 App 自己的颜色资源文件
+  # （Packages/HamsterKeyboardKit/Sources/Resources/Colors.xcassets），
+  # 它内置的标准外观就是照着 iOS 做的：
+  #
+  #   资源名                        浅色        深色       iOS 文档实测值
+  #   standardButtonBackground      #FFFFFF     #6B6B6B    FFFFFF / 707070
+  #   standardDarkButtonBackground  #ABB1BA     #474747    ABB0BA / 4C4C4C   ← 系统键
+  #   standardKeyboardBackground    #D5D6DD     #2C2C2C    D1D2D9 / 2C2C2C   ← 键盘底色
+  #   standardButtonShadow          黑 α0.30    黑 α0.70
+  #
+  # 系统键的灰 #ABB1BA 和 iOS 实测的 #ABB0BA 只差 1 个 G 值 ——
+  # 说明仓的默认外观本来就比我从文档转抄的配色更接近 iOS。
+  #
+  # 更要紧的是：仓里还有一套 standardDarkButtonBackgroundForColorSchemeBug
+  # （浅色 #B3B7C0）。命名说明【一旦启用自定义配色方案，系统键会改用这套
+  # 「为配色方案修 bug」的颜色】，比默认值更亮、离 iOS 更远 ——
+  # 这正好对应你观察到的「系统键颜色有变化」。
+  #
+  # 所以：关掉配色方案 → 用仓自己的 iOS 级外观，还原度反而更高。
+  #
+  # 下面两套配色方案仍然保留着（不影响，未启用就不生效）：
+  # 如果你以后想自己微调局部颜色，把上面那行改成 true 即可，
+  # 但记住颜色格式是 BGR，且系统键/回车键的颜色它管不到。
+  #
+  # ── 关于回车键不是蓝色 ──
+  # 颜色资源里【没有】回车键的色值，说明它的颜色不在配色方案的可控范围内。
+  # 仓的皮肤机制理论上能做（皮肤背景样式支持 normalColor/highlightColor，
+  # 配合 JS 的 $getReturnKeyType 切换蓝色样式），但皮肤要定义整份键盘布局
+  # （4 种键盘 × 横竖屏 × iPhone/iPad 的全部按键），代价很大且我无法离线验证。
+  # 先关掉配色方案看默认状态下回车键是什么颜色，再决定要不要走皮肤这条路。
+
+  # 注意：这里是【整体替换】colorSchemas 列表，仓自带的 solarized 预设会没了
+  # （不需要，可以不管）。
+  # 想保留它们，把上面这行改成 `keyboard/colorSchemas/+:` 追加。
+  keyboard/colorSchemas:
+
+    # ────────────────────────────────────────────────────────
+    # 浅色
+    # ────────────────────────────────────────────────────────
+    - schemaName: ios_native_light
+      name: iOS 原生 · 浅色
+      author: rime-ios-mspy
+
+      # 【文档值】仓文档「仿系统键盘按键设计」给出的 iOS 实测值。
+      # 但那张表是【像素】单位（iPhone X，scale 3），
+      # 所以圆角 15px、阴影 3px 换算成点分别是 5 和 1 —— 我第一版直接
+      # 写 15/3，圆角大了三倍，已修正。
+      #
+      # 键盘背景色 RGB D1D2D9 + 透明度 FC → BGR 字节序：D9 D2 D1
+      back_color: 0xFCD9D2D1
+      # 字母按键 FFFFFF（灰阶对称，BGR 与 RGB 无差别）
+      button_back_color: 0xFFFFFF
+      # 字母按键底部阴影 RGB 88898D → BGR 8D 89 88
+      shadow_color: 0x8D8988
+      shadow_size: 1
+      # 按键圆角（单位：点）
+      corner_radius: 5
+      # iOS 按键本身没有描边，只有底部阴影 → 边框色跟阴影色一致，
+      # 这样不管仓用 border_color 还是 shadow_color 画那道边，结果都对
+      border_color: 0x8D8988
+
+      # 【推断值】仓文档没给这些，是按 iOS 观感取的初值。
+      # ⚠️ 这几个是最需要你实测确认的（见「键位校验清单.md」D 段）。
+      # 下面数值已按 BGR 字节序写好（注释里标了原意的 RGB 值）。
+      #
+      # ── 若要让「候选白底」彻底不可见（可选，默认不启用）──
+      # 把本项设成与键盘底色相同的值，白底就看不出来了，
+      # 于是「它有时顶出输入栏」这个问题在视觉上直接消失。
+      # 键盘底色 back_color 是 0xFCD9D2D1（见本方案第一项），所以照抄它即可。
+      # 注意：这只是"看不见"，不是"尺寸被修好"；而且必须先把
+      # keyboard/enableColorSchema 改成 true 才生效（代价见文件上方说明）。
+      text_color: 0x000000                          # 组字区文字
+      candidate_text_color: 0x000000                # 候选栏次选文字
+      hilited_candidate_text_color: 0x000000
+      hilited_candidate_back_color: 0xEBE9E9        # 原意 RGB E9E9EB（改成 0xFCD9D2D1 即隐形）
+      comment_text_color: 0x8E8A8A                  # 原意 RGB 8A8A8E
+      hilited_comment_text_color: 0x8E8A8A
+      label_color: 0x8E8A8A
+      hilited_candidate_label_color: 0x8E8A8A
+      hilited_callout_back_color: 0xFFFFFF
+      hilited_callout_foreground_color: 0x000000
+
+      # ⚠️ 按键文字色有【版本差异】，所以两个键名都写上、值相同：
+      #   2.19.x 文档（keyboard_color.mdx）用 *_foreground_color
+      #   2.1.0 模板（hamster.yaml）用 *_front_color
+      #   多写的那个会被忽略，值一样所以不会冲突。
+      button_foreground_color: 0x000000
+      button_pressed_foreground_color: 0x000000
+      button_swipe_foreground_color: 0x8E8A8A
+      button_front_color: 0x000000
+      button_pressed_front_color: 0x000000
+      button_swipe_front_color: 0x8E8A8A
+
+      # 按下时的按键底色（推断值，原意 RGB C7C8CC）
+      button_pressed_back_color: 0xCCC8C7
+
+      # 按键气泡（按下时上方浮出的放大字符）的底色。
+      # 不设！仓的规则是「为空时使用 button_back_color 作为气泡颜色」，
+      # 而 iOS 的气泡底色本来就等于按键底色 —— 默认行为正好就是对的。
+      # button_bubble_back_color: 0xFFFFFF
+
+    # ────────────────────────────────────────────────────────
+    # 深色
+    # ────────────────────────────────────────────────────────
+    - schemaName: ios_native_dark
+      name: iOS 原生 · 深色
+      author: rime-ios-mspy
+
+      # 【文档值】深色这几项都是灰阶，BGR 与 RGB 等价，无需换序
+      back_color: 0xFC2C2C2C           # 键盘背景色 2C2C2C
+      button_back_color: 0x707070      # 字母按键 707070
+      shadow_color: 0x1E1E1E           # 字母按键底部阴影 1E1E1E
+      shadow_size: 1                   # 3px ÷ 3 = 1 点
+      corner_radius: 5                 # 15px ÷ 3 = 5 点
+      border_color: 0x1E1E1E
+
+      # 【推断值】已按 BGR 字节序写好（注释里标了原意的 RGB 值）
+      text_color: 0xFFFFFF
+      candidate_text_color: 0xFFFFFF
+      hilited_candidate_text_color: 0xFFFFFF
+      hilited_candidate_back_color: 0x3C3A3A        # 原意 RGB 3A3A3C
+      comment_text_color: 0x9E9A9A                  # 原意 RGB 9A9A9E
+      hilited_comment_text_color: 0x9E9A9A
+      label_color: 0x9E9A9A
+      hilited_candidate_label_color: 0x9E9A9A
+      hilited_callout_back_color: 0x707070
+      hilited_callout_foreground_color: 0xFFFFFF
+
+      # 版本差异处理同上
+      button_foreground_color: 0xFFFFFF
+      button_pressed_foreground_color: 0xFFFFFF
+      button_swipe_foreground_color: 0x9E9A9A
+      button_front_color: 0xFFFFFF
+      button_pressed_front_color: 0xFFFFFF
+      button_swipe_front_color: 0x9E9A9A
+
+      button_pressed_back_color: 0x8A8A8A
+
+  # ════════════════════════════════════════════════════════════
+  # 三、划动
+  # ════════════════════════════════════════════════════════════
+
+  # ★ iOS 的「空格上滑动移动光标」就是这个 ★
+  # 每滑动多少 point 光标移动一位，数字越小越灵敏。
+  # iOS 原生手感偏灵敏，可以从 10 往下试 6~8。
+  swipe/spaceDragSensitivity: 10
+
+  # 划动距离阈值，小于这个距离不识别为划动。
+  # 模板默认 20（注意：仓 FAQ 文档里写的是 40，文档已过时，以模板为准）
+  swipe/distanceThreshold: 20
+
+  # 划动角度阈值（正切值），太大容易误触。tan(30°) ≈ 0.577
+  swipe/tangentThreshold: 0.577
+
+  # 长按延迟
+  swipe/longPressDelay: 0.3
+
+  # 注意：没有覆盖 swipe/keyboardSwipe（逐键划动/长按配置）。
+  # 它是列表，不写就不动，保留仓的内置配置。
+
+  # ════════════════════════════════════════════════════════════
+  # 四、RIME 引擎
+  # ════════════════════════════════════════════════════════════
+
+  # 简繁切换的开关键值，必须和方案 switches 里的 name 一致。
+  # 我们的方案用的就是 rime-ice 的 traditionalization。
+  rime/keyValueOfSwitchSimplifiedAndTraditional: traditionalization
+
+  rime/maximumNumberOfCandidateWords: 100
+
+  # ⚠️ 这条和「自造词」直接冲突，务必理解：
+  #
+  #   true  → 每次重新部署会用 App 侧文件覆盖键盘侧词库文件。
+  #           好处：我们改的词库/配置能推到键盘。
+  #           代价：键盘攒的自造词（*.userdb）被冲掉。
+  #
+  #   false → 保住自造词，但我们的改动推不过去。
+  #
+  #   正确顺序：
+  #     1. 首次部署 / 还在改配置 → 保持 true（当前值）
+  #     2. 配置稳定、开始日常打字 → 改成 false，自造词从此长期累积
+  #
+  #   （依据模板注释与 regexOnOverrideDictFiles 的语义判断；
+  #     建议实测一次：改几个字 → 重新部署 → 看自造词还在不在。）
+  # ⚠️ 已改回 true（App 的原始默认值）。
+  #   我曾在「云同步」那轮按仓的同步文档改成 false，但**你并没有配置 RIME 同步**，
+  #   所以那次改动没有任何收益，却偏离了默认值 —— 而 true 才是你之前
+  #   「full 档跑通、键盘一切正常」时的状态。恢复原值以排除变量。
+  #
+  #   要启用 RIME 同步（跨设备同步自造词）时再改成 false，
+  #   那是仓官方「词库同步」文档第 2 步的要求：
+  #   「进入 RIME 功能下，关闭『部署时覆盖键盘词库文件』选项」。
+  #   代价：改成 false 后我们后续改的词库/配置推不到键盘。
+  rime/overrideDictFiles: true

@@ -1,0 +1,155 @@
+# MSPY key-mapping test cases
+# Format: pinyin<TAB>expected_mspy_code<TAB>note
+#
+# Every expectation below was derived BY HAND from the authoritative
+# algebra in rime-ice / rime-double-pinyin double_pinyin_mspy.schema.yaml.
+# Pure ASCII on purpose, so no encoding can corrupt it.
+#
+# The cases marked [HAZARD] specifically guard the bridge-character trick:
+# e.g. after 'sh' folds to a bridge char, the trailing "ui" must NOT be
+# re-matched by the ui rule. If the bridge trick is broken, these fail.
+#
+# ---------------------------------------------------------------
+# CORRECTIONS made after the first self-test run (4 of my expectations
+# were wrong, the converter was right):
+#   wen -> wf   (wen = w + en,  NOT w + un)
+#   wei -> wz   (wei = w + ei,  NOT w + ui)
+#   ya  -> ya   (ya  = y + a)
+#   hun -> hp   (I had duplicated hen's expectation by mistake)
+#   ou  -> ou   (see the zero-initial note below)
+# ---------------------------------------------------------------
+# ZERO-INITIAL SYLLABLES - the real rule, verified against the algebra:
+#
+#   Each zero-initial syllable keeps its PLAIN spelling, and ADDITIONALLY
+#   gets an 'o'-prefixed variant (because 'derive' adds, it does not
+#   replace). The o-prefixed variant is  o + <the final's key>:
+#
+#     a  : aa  or oa
+#     ai : al  or ol
+#     ou : ou  or ob     <-- note the plain form stays "ou"
+#     er : er  or or-style "or"
+#
+#   The asymmetry on "ou" happens because the rule form is
+#       xform/(.)ou$/$1B/
+#   which needs at least one character BEFORE "ou". The bare 2-char
+#   spelling "ou" therefore never matches, and survives untouched.
+#   This is worth testing against iOS native - see the keylist.
+# ---------------------------------------------------------------
+
+# --- plain single finals ---
+da	da
+de	de
+ni	ni
+le	le
+bu	bu
+wu	wu
+yi	yi
+wo	wo
+ta	ta
+ye	ye
+a	aa	zero-initial a gets doubled
+o	o
+e	ee	zero-initial e gets doubled
+
+# --- zero-initial family (plain form; o-prefixed form also accepted) ---
+ai	al
+an	aj
+ang	ah
+ao	ak
+ei	ez
+en	ef
+eng	eg
+er	er
+ou	ou	plain form survives; "ob" is the o-prefixed variant
+
+# --- the 8 divergence probes (must match iOS native, see keylist) ---
+nv	ny	u-umlaut written as v
+lv	ly
+lve	lt	ue family
+lue	lt	ue family, u spelling
+nue	nt
+ying	y;	ing lives on the semicolon
+
+# --- w / y initials are plain initials, not zero-initial ---
+wen	wf	w + en (NOT w + un)
+wei	wz	w + ei (NOT w + ui)
+wang	wh
+wai	wl
+wan	wj
+weng	wg
+wu	wu
+ya	ya	y + a
+yao	yk
+yan	yj
+yang	yh
+yin	yn
+yong	ys
+yuan	yr
+yun	yp
+yue	yt
+
+# --- common syllables ---
+hao	hk
+zhong	vs
+guo	go
+ren	rf
+shi	ui	[HAZARD] sh -> u, trailing i is NOT ui
+zai	zl
+you	yb
+hen	hf
+hun	hp
+ming	m;
+ting	t;
+qing	q;
+xin	xn
+jin	jn
+lin	ln
+min	mn
+nin	nn
+ping	p;
+feng	fg
+hang	hh
+bang	bh
+duo	do
+lun	lp
+jun	jp
+zun	zp
+xue	xt
+jue	jt
+qiu	qq
+niu	nq
+liu	lq
+hui	hv
+gui	gv
+rui	rv
+shei	uz
+gei	gz
+tian	tm
+xiao	xc
+kuai	ky
+quan	qr
+shuang	ud
+xiong	xs
+zhuang	vd
+chuan	ir
+lia	lw	l + ia
+jia	jw	j + ia
+hua	hw	h + ua
+gua	gw	g + ua
+shua	uw	sh + ua  [HAZARD]
+
+# --- [HAZARD] bridge-vs-rule ordering ---
+chi	ii	ch -> i, then plain i
+shu	uu	sh -> u, then plain u
+shui	uv	sh -> u, then ui -> v
+chui	iv	ch -> i, then ui -> v
+zhui	vv	zh -> v, then ui -> v
+zhei	vz	zh -> v, then ei -> z
+
+# --- multi-syllable (separator dropped) ---
+ni hao	nihk
+zhong guo	vsgo
+wo men	womf
+ni'hao	nihk
+zhong'guo	vsgo
+shuang'pin	udpn

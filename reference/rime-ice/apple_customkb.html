@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  
+  <title>App Extension Programming Guide: Custom Keyboard</title>
+  <link rel="stylesheet" type="text/css" href="../../../../Resources/1282/CSS/style-1.6.3.css" />
+  <link rel="stylesheet" type="text/css" href="../../../../Resources/1282/CSS/feedback-1.6.3.css" />
+  <meta charset='utf-8'> 
+<meta id="j-version" name="j-version" content="" />
+<meta id="build" name="build" content="c1e4c7a89af8f899a21cfa81fc33ba42" />
+<meta id="document-version" name="document-version" content="4.4.3" />
+<meta id="book-assignments" name="book-assignments" content="{Type/Guide}, {Topic/General}" />
+<meta scheme="apple_ref" id="identifier" name="identifier" content="//apple_ref/doc/uid/TP40014214" />
+<meta id="chapterId" name="chapterId" content="TP40014214-CH16">
+<meta id="book-title" name="book-title" content="App Extension Programming Guide" />
+<meta id="book-resource-type" name="book-resource-type" content="Guide" />
+<meta id="book-root" name="book-root" content="./" />
+<meta id="book-json" name="book-json" content="book.json">
+<meta id="date" name="date" content="2017-10-19" />
+<meta id="description" name="description" content="Describes how to develop an app extension, which is an executable that adds functionality to other apps." />
+<meta id="IndexTitle" name="IndexTitle" content="" />
+<meta id="resources-uri" name="resources-uri" content="../../../../Resources/1282">
+<link id="book-index-page" rel="Start" title="" type="text/html" href="./index.html">
+<!-- , next_chapter: next_chapter, previous_chapter: previous_chapter -->
+<link id="next-page" rel="Next" type="text/html" href="">
+<link id="previous-page" rel="Prev" type="text/html" href="">
+<meta id="devcenter" name="devcenter" content="<!-- DEVCENTER_NAME -->" />
+<meta id="devcenter-url" name="devcenter-url" content="<!-- DEVCENTER_URL -->" />
+<meta id="reflib" name="reflib" content="<!-- REFLIB_NAME -->" />
+
+<meta id="xcode-display" name="xcode-display" content="render" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta id="platforms" name="platforms" content="OS X,iOS,tvOS,watchOS">
+</head>
+
+  <body id="conceptual_flow_with_tasks" class="jazz">
+    
+    <header id="ios_header" class="hideOnPrint hideInXcode">
+  <div class="content-wrapper">
+    <p class="header-text">
+    	<a href="../../../../navigation/">Documentation Archive
+ 		</a>
+ </p>
+    <p id="wwdr"><img id="apple_logo" src="../../../../Resources/1282/Images/apple2.png" height="14px" width="12px" aria-hidden="true" /><a href="https://developer.apple.com">Developer</a></p>
+  </div>
+</header>
+
+    <section id="valence">
+  <div class="content-wrapper">
+    <p id="hierarchial_navigation">
+      <span id="book_title">App Extension Programming Guide</span>
+    </p>
+    <form id="search" class="hideInXcode" method="get" action="/search/index.php" accept-charset="utf-8" autocomplete="off">
+  <input type="search" id="ssi_SearchField" placeholder="Search Documentation Archive" name="q" autocomplete="off" tabindex="2" />
+</form>
+
+      
+   
+   
+
+
+
+    <img id="shortstack" src="../../../../Resources/1282/Images/shortstack_2x.png"/>
+  </div>
+</section>
+    <div class="content-wrapper">
+      <nav id="navigator" class="book-parts hideInXcode" role="navigation">
+    <ul class="nav-parts">
+        <li data-id="//apple_ref/doc/uid/TP40014214-CH4-SW1"
+            class="part-name">
+            <a href="index.html#//apple_ref/doc/uid/TP40014214-CH20-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH20-SW1">App Extension Essentials</a>
+          <ul class="nav-chapters">
+              <li class="nav-chapter">
+              	<a href="index.html#//apple_ref/doc/uid/TP40014214-CH20-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH20-SW1">App Extensions Increase Your Impact</a>
+              </li>
+              <li class="nav-chapter">
+              	<a href="ExtensionOverview.html#//apple_ref/doc/uid/TP40014214-CH2-SW2" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH2-SW2">Understand How an App Extension Works</a>
+              </li>
+              <li class="nav-chapter">
+              	<a href="ExtensionCreation.html#//apple_ref/doc/uid/TP40014214-CH5-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH5-SW1">Creating an App Extension</a>
+              </li>
+              <li class="nav-chapter">
+              	<a href="ExtensionScenarios.html#//apple_ref/doc/uid/TP40014214-CH21-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH21-SW1">Handling Common Scenarios</a>
+              </li>
+          </ul>
+        </li>
+        <li data-id="//apple_ref/doc/uid/TP40014214-CH14-SW1"
+            class="part-name nav-part-active open-part">
+            <a href="Action.html#//apple_ref/doc/uid/TP40014214-CH13-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH13-SW1">App Extension Types</a>
+          <ul class="nav-chapters">
+              <li class="nav-chapter">
+              	<a href="Action.html#//apple_ref/doc/uid/TP40014214-CH13-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH13-SW1">Action</a>
+              </li>
+              <li class="nav-chapter">
+              	<a href="AudioUnit.html#//apple_ref/doc/uid/TP40014214-CH22-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH22-SW1">Audio Unit</a>
+              </li>
+              <li class="nav-chapter">
+              	<a href="ContentBlocker.html#//apple_ref/doc/uid/TP40014214-CH26-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH26-SW1">Content Blocker</a>
+              </li>
+              <li class="nav-chapter nav-current-chapter">
+              	<a href="#//apple_ref/doc/uid/TP40014214-CH16-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH16-SW1">Custom Keyboard</a>
+              </li>
+              <li class="nav-chapter">
+              	<a href="FileProvider.html#//apple_ref/doc/uid/TP40014214-CH18-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH18-SW1">Document Provider</a>
+              </li>
+              <li class="nav-chapter">
+              	<a href="Finder.html#//apple_ref/doc/uid/TP40014214-CH15-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH15-SW1">Finder Sync</a>
+              </li>
+              <li class="nav-chapter">
+              	<a href="Photos.html#//apple_ref/doc/uid/TP40014214-CH17-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH17-SW1">Photo Editing</a>
+              </li>
+              <li class="nav-chapter">
+              	<a href="Share.html#//apple_ref/doc/uid/TP40014214-CH12-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH12-SW1">Share</a>
+              </li>
+              <li class="nav-chapter">
+              	<a href="Today.html#//apple_ref/doc/uid/TP40014214-CH11-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH11-SW1">Today</a>
+              </li>
+          </ul>
+        </li>
+        <li data-id="revision-history"
+            class="part-name">
+          <a href="RevisionHistory.html#//apple_ref/doc/uid/TP40014214-CH99-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH99-SW1">Revision History</a>
+          <ul class="nav-chapters">
+            <li class="nav-chapter">
+              <a href="RevisionHistory.html#//apple_ref/doc/uid/TP40014214-CH99-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH99-SW1">Document Revision History</a>
+            </li>
+          </ul>
+        </li>
+    </ul>
+</nav>
+
+      <menu id="bashful" type="toolbar">
+  <div class="shield"></div>
+  <menuitem id="jump_to" class="menu-bar-item closed">
+  <span>On This Page</span>
+  <div class="chevron">
+    <div class="chevy chevron-left"></div>
+    <div class="chevy chevron-right"></div>
+  </div>
+  <menu type="list" class="details">
+      <ul class="list-bullet">
+          <li class="item">
+            <a href="#//apple_ref/doc/uid/TP40014214-CH16-SW21">Understand User Expectations for Keyboards</a>
+          </li>
+          <li class="item">
+            <a href="#//apple_ref/doc/uid/TP40014214-CH16-SW11">API Quick Start for Custom Keyboards</a>
+          </li>
+          <li class="item">
+            <a href="#//apple_ref/doc/uid/TP40014214-CH16-SW2">Development Essentials for Custom Keyboards</a>
+          </li>
+          <li class="item">
+            <a href="#//apple_ref/doc/uid/TP40014214-CH16-SW6">Getting Started with Custom Keyboard Development</a>
+          </li>
+      </ul>
+  </menu>
+</menuitem>
+
+</menu>
+<div class="pixel-line"></div>
+<div class="rubber-band-gap"></div>
+<article class="chapter">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16"></a><a name="//apple_ref/doc/uid/TP40014214-CH16-SW1"></a>
+
+  <h2 class='chapter-name'>Custom Keyboard</h2>
+
+
+  
+  	<section class="section">
+  		<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  
+</p>
+<p class="para">
+  A custom keyboard replaces the system keyboard for users who want capabilities such as a novel text input method or the ability to enter text in a language not otherwise supported in iOS. The essential function of a custom keyboard is simple: Respond to taps, gestures, or other input events and provide text, in the form of an unattributed <code class="code-voice u-api"><a href="../../../LegacyTechnologies/WebObjects/WebObjects_3.5/Reference/Frameworks/ObjC/Foundation/Classes/NSStringClassCluster/Description.html#//apple_ref/occ/cl/NSString" data-renderer-version="1">NSString</a></code> object, at the text insertion point of the current text input object.
+</p>
+<div class="note">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW20"></a>
+  <aside class="aside">
+    <p class="aside-title">Before you begin
+    </p>
+    	<p class="para">Make sure a custom, systemwide keyboard is indeed what you want to develop. To provide a fully custom keyboard for just your app or to supplement the system keyboard with custom keys in just your app, the iOS SDK provides other, better options. Read about custom input views and input accessory views in <a href="../../../StringsTextFonts/Conceptual/TextAndWebiPhoneOS/InputViews/InputViews.html#//apple_ref/doc/uid/TP40009542-CH12" data-renderer-version="1" target="_self">Custom Views for Data Input</a> in <em class="u-book"><a href="../../../StringsTextFonts/Conceptual/TextAndWebiPhoneOS/Introduction/Introduction.html#//apple_ref/doc/uid/TP40009542" data-renderer-version="1" target="_self">Text Programming Guide for iOS</a></em>.
+    	</p>
+    
+  </aside>
+</div>
+<p class="para">
+  After a user chooses a custom keyboard, it becomes the keyboard for every app the user opens. For this reason, a keyboard you create must, at minimum, provide certain base features. Most important, your keyboard must allow the user to switch to another keyboard.
+</p>
+
+		</section> 
+
+
+  <section class="section">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW21"></a>
+  <h3 class="section-name" tabindex="0">Understand User Expectations for Keyboards</h3>
+  <p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  To understand what users expect of your custom keyboard, study the system keyboard—it’s fast, responsive, and capable. And it never interrupts the user with information or requests. If you provide features that require user interaction, add them not to the keyboard but to your keyboard’s containing app.
+</p>
+  <section class="section">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW25"></a>
+  <h3 class="section-name" tabindex="0">Keyboard Features That iOS Users Expect</h3>
+  <p class="para">
+  There is one feature that iOS users expect and that every custom keyboard <em>must</em> provide: a way to switch to another keyboard. On the system keyboard, this affordance appears as a button called the <em>Globe key</em>. In iOS 8 and later, the system provides a specific API for your “next keyboard” key, described in <span class="x-name"><a href="#//apple_ref/doc/uid/TP40014214-CH16-SW4" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH16-SW4">Providing a Way to Switch to Another Keyboard</a></span>.
+</p><p class="para">
+  The system keyboard presents an appropriate key set or layout based on the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uikeyboardtype" class="urlLink">UIKeyboardType</a></code> trait of the current text input object. With the insertion point in the To: field in Mail, for example, the system keyboard period key changes: When you press and hold that key, you can pick from among a set of top-level domain suffixes. Design your custom keyboard with keyboard type traits in mind.
+</p><p class="para">
+  iOS users also expect autocapitalization: In a standard text field, the first letter of a sentence in a case-sensitive language is automatically capitalized.
+</p><p class="para">
+  These features and others are listed next.
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><ul class="list-simple">
+  <li class="item"><p class="para">
+  Appropriate layout and features based on keyboard type trait
+</p>
+</li><li class="item"><p class="para">
+  Autocorrection and suggestion
+</p>
+</li><li class="item"><p class="para">
+  Automatic capitalization
+</p>
+</li><li class="item"><p class="para">
+  Automatic period upon double space
+</p>
+</li><li class="item"><p class="para">
+  Caps lock support
+</p>
+</li><li class="item"><p class="para">
+  Keycap artwork
+</p>
+</li><li class="item"><p class="para">
+  Multistage input for ideographic languages
+</p>
+</li>
+</ul><p class="para">
+  You can decide whether or not to implement such features; there is no dedicated API for any of the features just listed, so providing them is a competitive advantage.
+</p>
+  
+</section>
+<section class="section">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW26"></a>
+  <h3 class="section-name" tabindex="0">System Keyboard Features Unavailable to Custom Keyboards</h3>
+  <p class="para">
+  Your custom keyboard does not have access to most of the general keyboard settings in the Settings app (Settings &gt; General &gt; Keyboard), such as Auto-Capitalization and Enable Caps Lock. Nor does your keyboard have access to the dictionary reset feature (Settings &gt; General &gt; Reset &gt; Reset Keyboard Dictionary). To give your users flexibility, create a standard settings bundle, as described in <a href="../../../Cocoa/Conceptual/UserDefaults/Preferences/Preferences.html#//apple_ref/doc/uid/10000059i-CH6" data-renderer-version="1" target="_self">Implementing an iOS Settings Bundle</a> in <em class="u-book"><a href="../../../Cocoa/Conceptual/UserDefaults/Introduction/Introduction.html#//apple_ref/doc/uid/10000059i" data-renderer-version="1" target="_self">Preferences and Settings Programming Guide</a></em>. Your custom settings then appear in the Keyboard area in Settings, associated with your keyboard.
+</p><p class="para">
+  There are certain text input objects that your custom keyboard is not eligible to type into. First is any <em>secure</em> text input object. Such an object is defined by its <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uitextinputtraits/1624427-securetextentry" class="urlLink">secureTextEntry</a></code> property being set to <code class="k-constant-name code-voice Objective-C">YES</code><code class="k-constant-name code-voice Swift">true</code> and is distinguished by presenting typed characters as dots.
+</p><p class="para">
+  When a user taps in a secure text input object, the system temporarily replaces your custom keyboard with the system keyboard. When the user then taps in a nonsecure text input object, your keyboard automatically resumes.
+</p><p class="para">
+  Your custom keyboard is also ineligible to type into so-called phone pad objects, such as the phone number fields in Contacts. These input objects are exclusively for strings built from a small set of alphanumeric characters specified by telecommunications carriers and are identified by having one or another of the following two keyboard type traits:
+</p><ul class="list-bullet">
+  <li class="item"><p class="para">
+  <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uikeyboardtype/uikeyboardtypephonepad" class="urlLink">UIKeyboardTypePhonePad</a></code>
+</p>
+</li><li class="item"><p class="para">
+  <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uikeyboardtype/uikeyboardtypenamephonepad" class="urlLink">UIKeyboardTypeNamePhonePad</a></code>
+</p>
+</li>
+</ul><p class="para">
+  When a user taps in a phone pad object, the system temporarily replaces your keyboard with the appropriate, standard system keyboard. When the user then taps in a different input object that requests a standard keyboard via its type trait, your keyboard automatically resumes.
+</p><p class="para">
+  An app developer can elect to reject the use of all custom keyboards in their app. For example, the developer of a banking app, or the developer of an app that must conform to the HIPAA privacy rule in the US, might do this. Such an app employs the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623122-application" class="urlLink">application:shouldAllowExtensionPointIdentifier:</a></code> method from the <code class="code-voice u-api-no-link">UIApplicationDelegate</code> protocol (returning a value of <code class="k-constant-name code-voice Objective-C">NO</code><code class="k-constant-name code-voice Swift">false</code>), and thereby always uses the system keyboard.
+</p><p class="para">
+  Because a custom keyboard can draw only within the primary view of its <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller" class="urlLink">UIInputViewController</a></code> object, it cannot select text. Text selection is under the control of the app that is using the keyboard. If that app provides an editing menu interface (such as for Cut, Copy, and Paste), the keyboard has no access to it. A custom keyboard cannot offer inline autocorrection controls near the insertion point.
+</p><p class="para">
+  Custom keyboards, like all app extensions in iOS 8.0, have no access to the device microphone, so dictation input is not possible.
+</p><p class="para">
+  Finally, it is not possible to display key artwork above the top edge of a custom keyboard’s primary view, as the system keyboard does on iPhone when you tap and hold a key in the top row.
+</p>
+  
+</section>
+
+</section>
+<section class="section">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW11"></a>
+  <h3 class="section-name" tabindex="0">API Quick Start for Custom Keyboards</h3>
+  <p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  This section gives you a quick tour of the APIs for building a keyboard. <span class="x-name-no-link">Figure 8-1</span> shows some of the important objects in a running keyboard and where they come from in a typical development workflow.
+</p><figure class="figure">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW29"></a>
+  <span class="caption"><strong class="caption-number">Figure 8-1</strong>Basic structure of a custom keyboard</span>
+  <img src="Art/keyboard_architecture_2x.png" alt="image: ../Art/keyboard_architecture.pdf" width="669" height="508" />
+</figure><p class="para">
+  The Custom Keyboard template (in the iOS “Application Extension” target template group) contains a subclass of the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller" class="urlLink">UIInputViewController</a></code> class, which serves as your keyboard’s primary view controller. The template also includes a basic implementation of the “next keyboard” key, which calls the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller/1618191-advancetonextinputmode" class="urlLink">advanceToNextInputMode</a></code> method of the <code class="code-voice u-api-no-link">UIInputViewController</code> class. Add objects such as views, controls, and gesture recognizers to the input view controller’s primary view (in its <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller/1618192-inputview" class="urlLink">inputView</a></code> property), as suggested in <span class="x-name-no-link">Figure 8-1</span>. As with other app extensions, there is no window in the target, and, therefore, no root view controller per se.
+</p><p class="para">
+  The template’s <code class="code-voice">Info.plist</code> file comes preconfigured with the minimal values needed for a keyboard. See the <code class="code-voice">NSExtensionAttributes</code> dictionary key in the keyboard target’s <code class="code-voice">Info.plist</code> file. The keys for configuring a keyboard are described in <span class="x-name"><a href="#//apple_ref/doc/uid/TP40014214-CH16-SW18" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH16-SW18">Configuring the Info.plist file for a Custom Keyboard</a></span>.
+</p><p class="para">
+  By default, a keyboard has no network access and cannot share a container with its containing app. To enable these things, set the value of the <code class="code-voice">RequestsOpenAccess</code> Boolean key in the <code class="code-voice">Info.plist</code> file to <code class="k-constant-name code-voice Objective-C">YES</code><code class="k-constant-name code-voice Swift">true</code>. Doing this expands the keyboard’s sandbox, as described in <span class="x-name"><a href="#//apple_ref/doc/uid/TP40014214-CH16-SW3" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH16-SW3">Designing for User Trust</a></span>.
+</p><p class="para">
+  An input view controller conforms to various protocols for interacting with the content of a text input object:
+</p><ul class="list-bullet">
+  <li class="item"><p class="para">
+  To insert or delete text in response to touch events, employ the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uikeyinput" class="urlLink">UIKeyInput</a></code> protocol methods <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uikeyinput/1614543-inserttext" class="urlLink">insertText:</a></code> and <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uikeyinput/1614572-deletebackward" class="urlLink">deleteBackward</a></code>. Call these methods on the input view controller’s <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller/1618193-textdocumentproxy" class="urlLink">textDocumentProxy</a></code> property, which represents the current text input object and which conforms to the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uitextdocumentproxy" class="urlLink">UITextDocumentProxy</a></code> protocol. For example:
+</p>
+<section class="code-listing">
+  
+  <div class="code-sample">
+      <div class="">
+        <ol class="code-lines">
+            <li><code class="code-voice">[self.textDocumentProxy insertText:@&quot;hello &quot;]; // Inserts the string &quot;hello &quot; at the insertion point</code></li>
+        </ol>
+      </div>
+  </div>
+</section>
+<section class="code-listing">
+  
+  <div class="code-sample">
+      <div class="">
+        <ol class="code-lines">
+            <li><code class="code-voice">[self.textDocumentProxy deleteBackward];       // Deletes the character to the left of the insertion point</code></li>
+        </ol>
+      </div>
+  </div>
+</section>
+<section class="code-listing">
+  
+  <div class="code-sample">
+      <div class="">
+        <ol class="code-lines">
+            <li><code class="code-voice">[self.textDocumentProxy insertText:@&quot;\n&quot;];     // In a text view, inserts a newline character at the insertion point</code></li>
+        </ol>
+      </div>
+  </div>
+</section>
+</li><li class="item"><p class="para">
+  To get the data you need to determine how much text is appropriate to delete when you call the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uikeyinput/1614572-deletebackward" class="urlLink">deleteBackward</a></code> method, obtain the textual context near the insertion point from the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uitextdocumentproxy/1618190-documentcontextbeforeinput" class="urlLink">documentContextBeforeInput</a></code> property of the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller/1618193-textdocumentproxy" class="urlLink">textDocumentProxy</a></code> property, as follows:
+</p>
+<section class="code-listing">
+  
+  <div class="code-sample">
+      <div class="">
+        <ol class="code-lines">
+            <li><code class="code-voice">NSString *precedingContext = self.textDocumentProxy.documentContextBeforeInput;</code></li>
+        </ol>
+      </div>
+  </div>
+</section>
+<p class="para">
+  You can then delete the appropriate text—for example, a single character, or everything back to a whitespace character. To delete by semantic unit, such as by word, sentence, or paragraph, employ the functions described in <em class="u-book"><a href="https://developer.apple.com/documentation/corefoundation/cfstringtokenizer" class="urlLink" target="_self">CFStringTokenizer Reference</a></em> and refer to related documentation. Note that each language has its own tokenization rules.
+</p>
+</li><li class="item"><p class="para">
+  To control the insertion point position, such as to support text deletion in a forward direction, call the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uitextdocumentproxy/1618194-adjusttextposition" class="urlLink">adjustTextPositionByCharacterOffset:</a></code> method of the <code class="code-voice u-api-no-link">UITextDocumentProxy</code> protocol. For example, to delete forward by one character, use code similar to this:
+</p>
+<section class="code-listing">
+  
+  <div class="code-sample">
+      <div class="">
+        <ol class="code-lines">
+            <li><code class="code-voice">- (void) deleteForward {</code></li>
+            <li><code class="code-voice">    [self.textDocumentProxy adjustTextPositionByCharacterOffset: 1];</code></li>
+            <li><code class="code-voice">    [self.textDocumentProxy deleteBackward];</code></li>
+            <li><code class="code-voice">}</code></li>
+        </ol>
+      </div>
+  </div>
+</section>
+</li><li class="item"><p class="para">
+  To respond to changes in the content of the active text object, or to respond to user-initiated changes in the position of the insertion point, implement the methods of the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uitextinputdelegate" class="urlLink">UITextInputDelegate</a></code> protocol.
+</p>
+</li>
+</ul><p class="para">
+  To present a keyboard layout appropriate to the current text input object, respond to the object’s <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uikeyboardtype" class="urlLink">UIKeyboardType</a></code> property. For each trait you support, change the contents of your primary view accordingly.
+</p><p class="para">
+  To support more than one language in your custom keyboard, you have two options:
+</p><ul class="list-bullet">
+  <li class="item"><p class="para">
+  Create one keyboard per language, each as a separate target that you add to a common containing app
+</p>
+</li><li class="item"><p class="para">
+  Create a single multilingual keyboard, dynamically switching its primary language as appropriate
+</p>
+<p class="para">
+  To dynamically switch the primary language, use the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller/1618200-primarylanguage" class="urlLink">primaryLanguage</a></code> property of the <code class="code-voice u-api-no-link">UIInputViewController</code> class.
+</p>
+</li>
+</ul><p class="para">
+  Depending on the number of languages you want to support and the user experience you want to provide, pick the option that makes the most sense.
+</p><p class="para">
+  Every custom keyboard (independent of the value of its <code class="code-voice">RequestsOpenAccess</code> key) has access to a basic autocorrection lexicon through the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uilexicon" class="urlLink">UILexicon</a></code> class. Make use of this class, along with a lexicon of your own design, to provide suggestions and autocorrections as users are entering text. The <code class="code-voice u-api-no-link">UILexicon</code> object contains words from various sources, including:
+</p><ul class="list-bullet">
+  <li class="item"><p class="para">
+  Unpaired first names and last names from the user’s Address Book database
+</p>
+</li><li class="item"><p class="para">
+  Text shortcuts defined in the Settings &gt; General &gt; Keyboard &gt; Shortcuts list
+</p>
+</li><li class="item"><p class="para">
+  A common words dictionary
+</p>
+</li>
+</ul><p class="para">
+  You can adjust the height of your custom keyboard’s primary view using Auto Layout. By default, a custom keyboard is sized to match the system keyboard, according to screen size and device orientation. A custom keyboard’s width is always set by the system to equal the current screen width. To adjust a custom keyboard’s height, change its primary view&#39;s height constraint.
+</p><p class="para">
+  The following code lines show how you might define and add such a constraint:
+</p><section class="code-listing">
+  
+  <div class="code-sample">
+      <div class="">
+        <ol class="code-lines">
+            <li><code class="code-voice">CGFloat _expandedHeight = 500;</code></li>
+            <li><code class="code-voice">NSLayoutConstraint *_heightConstraint = 
+    [NSLayoutConstraint constraintWithItem: self.view 
+                                 attribute: NSLayoutAttributeHeight 
+                                 relatedBy: NSLayoutRelationEqual 
+                                    toItem: nil 
+                                 attribute: NSLayoutAttributeNotAnAttribute 
+                                multiplier: 0.0 
+                                  constant: _expandedHeight];</code></li>
+            <li><code class="code-voice">[self.view addConstraint: _heightConstraint];</code></li>
+        </ol>
+      </div>
+  </div>
+</section><div class="note">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW10"></a>
+  <aside class="aside">
+    <p class="aside-title">Note
+    </p>
+    	<p class="para">In iOS 8.0, you can adjust a custom keyboard’s height any time after its primary view initially draws on screen.
+    	</p>
+    
+  </aside>
+</div>
+  
+</section>
+<section class="section">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW2"></a>
+  <h3 class="section-name" tabindex="0">Development Essentials for Custom Keyboards</h3>
+  <p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  There are two development essentials for every custom keyboard:
+</p><ul class="list-bullet">
+  <li class="item"><p class="para">
+  <strong class="inline-head">Trust.</strong> Your custom keyboard gives you access to what a user types, so trust between you and your user is essential.
+</p>
+</li><li class="item"><p class="para">
+  <strong class="inline-head">A “next keyboard” key.</strong> The affordance that lets a user switch to another keyboard is part of a keyboard’s user interface; you must provide one in your keyboard.
+</p>
+</li>
+</ul>
+  <section class="section">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW3"></a>
+  <h3 class="section-name" tabindex="0">Designing for User Trust</h3>
+  <p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  Your first consideration when creating a custom keyboard must be how you will establish and maintain user trust. This trust hinges on your understanding of privacy best practices and knowing how to implement them.
+</p><div class="note">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW8"></a>
+  <aside class="aside">
+    <p class="aside-title">Note
+    </p>
+    	<p class="para">This section provides guidelines to help you create a custom keyboard that respects user privacy, in terms of factors under your control and described here as responsibilities. To learn about iOS program requirements, read <em class="book-name">App Store Review Guidelines</em>, <em class="book-name">iOS Human Interface Guidelines</em>, and <em class="book-name">iOS Developer Program License Agreement</em>, all linked to from Apple’s <a href="https://developer.apple.com/support/appstore/app-review/">App Review Support</a> page. Also review <a href="../../../iPhone/Conceptual/iPhoneOSProgrammingGuide/ExpectedAppBehaviors/ExpectedAppBehaviors.html#//apple_ref/doc/uid/TP40007072-CH3-SW6" data-renderer-version="1" target="_self">Supporting User Privacy</a> in <em class="u-book"><a href="../../../iPhone/Conceptual/iPhoneOSProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40007072" data-renderer-version="1" target="_self">App Programming Guide for iOS</a></em>.
+    	</p>
+    
+  </aside>
+</div><p class="para">
+  For keyboards, the following three areas are especially important for establishing and maintaining user trust:
+</p><p class="para">
+  <strong class="inline-head">Safety of keystroke data.</strong> Users want their keystrokes to go to the document or text field they’re typing into, and not to be archived on a server or used for  purposes that are not obvious to them.
+</p><p class="para">
+  <strong class="inline-head">Appropriate and minimized use of other user data.</strong> If your keyboard employs other user data, such as from Location Services or the Address Book database, the burden is on you to explain and demonstrate the benefit to your users.
+</p><p class="para">
+  <strong class="inline-head">Accuracy.</strong> Accuracy in converting input events to text is not a privacy issue per se but it impacts trust: With every word typed, users see the accuracy of your code.
+</p><p class="para">
+  To design for trust, first consider whether to request open access. Although open access makes many things possible for a custom keyboard, it also increases your responsibilities (see <span class="x-name-no-link">Table 8-1</span>).
+</p><p class="para">
+  
+</p><div class="tableholder">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW27"></a>
+  <table class="graybox" border="0" cellspacing="0" cellpadding="5">
+    <caption class="tablecaption"><strong class="caption-number">Table 8-1</strong>Standard and open access (network-enabled) keyboards—capabilities and privacy considerations</caption>
+    <thead>
+        <tr>
+            <th scope="col" class="TableHeading_TableRow_TableCell"><p class="para">
+  Open access
+</p></th>
+            <th scope="col" class="TableHeading_TableRow_TableCell"><p class="para">
+  Capabilities and restrictions
+</p></th>
+            <th scope="col" class="TableHeading_TableRow_TableCell"><p class="para">
+  Privacy considerations
+</p></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td scope="row"><p class="para">
+  <em>Off (default)</em>
+</p></td>
+            <td><ul class="list-bullet">
+  <li class="item"><p class="para">
+  Keyboard can perform all the normal duties expected of a basic keyboard
+</p>
+</li><li class="item"><p class="para">
+  Access to a common words lexicon for autocorrect and text suggestion
+</p>
+</li><li class="item"><p class="para">
+  Access to the text shortcuts list in Settings
+</p>
+</li><li class="item"><p class="para">
+  No shared container with containing app
+</p>
+</li><li class="item"><p class="para">
+  No access to file system apart from keyboard’s own container
+</p>
+</li><li class="item"><p class="para">
+  No ability to participate directly or indirectly in iCloud, Game Center, or In-App Purchase
+</p>
+</li>
+</ul></td>
+            <td><ul class="list-bullet">
+  <li class="item"><p class="para">
+  Users know that keystrokes go only to the app that is using the keyboard
+</p>
+</li>
+</ul></td>
+        </tr>
+        <tr>
+            <td scope="row"><p class="para">
+  <em>On</em>
+</p></td>
+            <td><ul class="list-bullet">
+  <li class="item"><p class="para">
+  All capabilities of a nonnetworked custom keyboard
+</p>
+</li><li class="item"><p class="para">
+  Keyboard can access Location Services and Address Book, with user permission
+</p>
+</li><li class="item"><p class="para">
+  Keyboard and containing app can employ a shared container
+</p>
+</li><li class="item"><p class="para">
+  Keyboard can send keystrokes and other input events for server-side processing
+</p>
+</li><li class="item"><p class="para">
+  Containing app can provide editing interface for keyboard’s custom autocorrect lexicon
+</p>
+</li><li class="item"><p class="para">
+  Via containing app, keyboard can employ iCloud to ensure settings and autocorrect lexicon are up to date on all devices
+</p>
+</li><li class="item"><p class="para">
+  Via containing app, keyboard can participate  in Game Center and In-App Purchase
+</p>
+</li><li class="item"><p class="para">
+  If keyboard supports mobile device management (MDM), it can work with managed apps
+</p>
+</li>
+</ul></td>
+            <td><ul class="list-bullet">
+  <li class="item"><p class="para">
+  Users know that keystrokes are available to the keyboard developer
+</p>
+</li><li class="item"><p class="para">
+  You must adhere to networked keyboard guidelines in <em class="book-name">App Store Review Guidelines</em> and <em class="book-name">iOS Developer Program License Agreement</em>, linked from  Apple’s <a href="https://developer.apple.com/support/appstore/app-review/">App Review Support</a> page.
+</p>
+</li>
+</ul></td>
+        </tr>
+    </tbody>
+  </table>
+</div><p class="para">
+  If you build a keyboard without open access, the system ensures that keystrokes cannot be sent back to you or anywhere else. Use a nonnetworked keyboard if your goal is to provide normal keyboard functionality. Because of its restricted sandbox, a nonnetworked keyboard gives you a head start in meeting Apple’s data privacy guidelines and in gaining user trust.
+</p><p class="para">
+  
+</p><p class="para">
+  If you enable open access (as described <span class="x-name"><a href="#//apple_ref/doc/uid/TP40014214-CH16-SW18" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH16-SW18">Configuring the Info.plist file for a Custom Keyboard</a></span>), a variety of possibilities open up but your responsibilities increase as well.
+</p><div class="note">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW5"></a>
+  <aside class="aside">
+    <p class="aside-title">Note
+    </p>
+    	<p class="para">To submit an open-access keyboard to the App Store, you must adhere to all pertinent guidelines in the documents linked from Apple’s <a href="https://developer.apple.com/support/appstore/app-review/">App Review Support</a> page.
+    	</p>
+    
+  </aside>
+</div><p class="para">
+  Each keyboard capability associated with open access carries responsibilities on your part as a developer, as indicated in <span class="x-name-no-link">Table 8-2</span>. In general, treat user data with the greatest possible respect and do not use it for any purpose that is not obvious to the user.
+</p><div class="tableholder">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW28"></a>
+  <table class="graybox" border="0" cellspacing="0" cellpadding="5">
+    <caption class="tablecaption"><strong class="caption-number">Table 8-2</strong>Open-access keyboard user benefits and developer responsibilities</caption>
+    <thead>
+        <tr>
+            <th scope="col" class="TableHeading_TableRow_TableCell"><p class="para">
+  Capability
+</p></th>
+            <th scope="col" class="TableHeading_TableRow_TableCell"><p class="para">
+  Example user benefit
+</p></th>
+            <th scope="col" class="TableHeading_TableRow_TableCell"><p class="para">
+  Developer responsibility
+</p></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td scope="row"><p class="para">
+  Shared container with containing app
+</p></td>
+            <td><p class="para">
+  Management UI for keyboard’s autocorrect lexicon
+</p></td>
+            <td><p class="para">
+  Consider the autocorrect lexicon to be private user data. Do not send it to your servers for any purpose that is not obvious to the user.
+</p></td>
+        </tr>
+        <tr>
+            <td scope="row"><p class="para">
+  Sending keystroke data to your server
+</p></td>
+            <td><p class="para">
+  Enhanced touch-event processing and input prediction via developer’s computing resources 
+</p></td>
+            <td><p class="para">
+  Do not store received keystroke or voice data except to provide services that are obvious to the user.
+</p></td>
+        </tr>
+        <tr>
+            <td scope="row"><p class="para">
+  Dynamic autocorrect lexicon based on network supplied data
+</p></td>
+            <td><p class="para">
+  Names of people, places, and current events in the news added to autocorrection lexicon
+</p></td>
+            <td><p class="para">
+  Do not associate the user’s identity with their use of trending or other network-based information, for any reason that is not obvious to the user.
+</p></td>
+        </tr>
+        <tr>
+            <td scope="row"><p class="para">
+  Address Book access
+</p></td>
+            <td><p class="para">
+  Names, places, and phone numbers relevant to the user added to autocorrection lexicon
+</p></td>
+            <td><p class="para">
+  Do not use Address Book data for any purpose that is not obvious to the user.
+</p></td>
+        </tr>
+        <tr>
+            <td scope="row"><p class="para">
+  Location Services access
+</p></td>
+            <td><p class="para">
+  Nearby place names added to autocorrection lexicon
+</p></td>
+            <td><p class="para">
+  Do not use Location Services in the background. Do not send location data to your servers for any purpose that is not obvious to the user.
+</p></td>
+        </tr>
+    </tbody>
+  </table>
+</div><p class="para">
+  An open-access keyboard and its containing app can send keystroke data to your server, which enables you to apply your computing resources to such features as touch-event processing and input prediction. If you employ this capability, do not store received keystroke or voice data beyond the time needed to provide text back to the user or to provide features that you explain to the user. Refer to <span class="x-name-no-link">Table 8-2</span> for additional responsibilities you have when using open-access-keyboard capabilities.
+</p>
+  
+</section>
+<section class="section">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW4"></a>
+  <h3 class="section-name" tabindex="0">Providing a Way to Switch to Another Keyboard</h3>
+  <p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  When more than one keyboard is enabled, the system keyboard includes a Globe key (see <span class="x-name-no-link">Figure 8-2</span>) that lets the user switch keyboards. Your custom keyboard may require a similar “next keyboard” key.
+</p><figure class="figure">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW31"></a>
+  <span class="caption"><strong class="caption-number">Figure 8-2</strong>The system keyboard’s Globe key</span>
+  <img src="Art/globe_key_2x.png" alt="image: ../Art/globe_key_2x.png" width="438" height="296" />
+</figure><p class="para">
+  To determine whether your custom keyboard needs to display a “next keyboard” key, check the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller/2875741-needsinputmodeswitchkey" class="urlLink">needsInputModeSwitchKey</a></code> property on the input view controller. If true, your keyboard should include this key.
+</p><p class="para">
+  To ask the system to switch to another keyboard, call the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller/1618191-advancetonextinputmode" class="urlLink">advanceToNextInputMode</a></code> method of the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller" class="urlLink">UIInputViewController</a></code> class. The system picks the appropriate “next” keyboard from the list of user-enabled keyboards; there is no API to obtain a list of enabled keyboards or for picking a particular keyboard to switch to.
+</p><p class="para">
+  The Xcode Custom Keyboard template includes the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiinputviewcontroller/1618191-advancetonextinputmode" class="urlLink">advanceToNextInputMode</a></code> method as the action of its Next Keyboard key. For best user experience, place your “next keyboard” key close to the same screen location as the system keyboard’s Globe key.
+</p>
+  
+</section>
+
+</section>
+<section class="section">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW6"></a>
+  <h3 class="section-name" tabindex="0">Getting Started with Custom Keyboard Development</h3>
+  <p class="para">
+  
+</p><p class="para">
+  In this section you learn how to create a custom keyboard, configure it according to your goals, and run it in iOS Simulator or on a device. You’ll also learn about some UI factors to bear in mind when replacing the system keyboard.
+</p>
+  <section class="section">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW7"></a>
+  <h3 class="section-name" tabindex="0">Using the Xcode Custom Keyboard Template</h3>
+  <p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  The steps to create a keyboard and its containing app differ slightly from those for other app extensions. This section walks you through getting a basic keyboard up and running.
+</p><p class="para">
+  <strong>To create a custom keyboard in a containing app</strong>
+</p><ol class="list-number">
+  <li class="item"><p class="para">
+  In Xcode, choose File &gt; New &gt; Project, and in the iOS Application template group choose the Single View Application template.
+</p>
+</li><li class="item"><p class="para">
+  Click Next.
+</p>
+</li><li class="item"><p class="para">
+  Name the project (for example, “ContainingAppForKeyboard”), then click Next.
+</p>
+</li><li class="item"><p class="para">
+  Navigate to the location you want to save the project in, then click Create.
+</p>
+<p class="para">
+  At this point, you have an empty app for your project to serve the simple role, for now, of containing the keyboard target. Before you submit a containing app to the App Store, it must perform some useful function. See <em class="book-name">App Store Review Guidelines</em>, linked from Apple’s <a href="https://developer.apple.com/support/appstore/app-review/">App Review Support</a> page.
+</p>
+</li><li class="item"><p class="para">
+  Choose File &gt; New &gt; Target, and in the iOS “Application Extension” target template group choose the Custom Keyboard template, then click Next.
+</p>
+</li><li class="item"><p class="para">
+  Name the target as you’d like the keyboard’s name to appear in the iOS user interface (for example, Custom Keyboard).
+</p>
+</li><li class="item"><p class="para">
+  Ensure that the Project and the “Embed in Application” pop-up menus display the name of the containing app, then click Finish.
+</p>
+<p class="para">
+  If you are prompted to activate the scheme for the new keyboard target, click Activate.
+</p>
+</li>
+</ol><p class="para">
+  You can now optionally customize the keyboard group name as it appears in the Purchased Keyboards list in Settings, as described next.
+</p><p class="para">
+  <strong>To customize the keyboard group name</strong>
+</p><ol class="list-number">
+  <li class="item"><p class="para">
+  In the Xcode project navigator, choose the containing app’s <code class="code-voice">Info.plist</code> file, located in the app’s Supporting Files folder. The property list editor opens, showing the contents of the file.
+</p>
+</li><li class="item"><p class="para">
+  Hover the cursor over the “Bundle name” row, then click the “+” button that appears. This creates a new, empty property list row and selects its Key field.
+</p>
+</li><li class="item"><p class="para">
+  Start typing <code class="code-voice">Bundle display name</code> and when the name autocompletes, press Return.
+</p>
+</li><li class="item"><p class="para">
+  Double-click in the Value field in the same row to obtain a cursor there, then enter the keyboard group name you want.
+</p>
+</li><li class="item"><p class="para">
+  Choose File &gt; Save to save your changes to property list file.
+</p>
+</li>
+</ol><p class="para">
+  <span class="x-name-no-link">Table 8-3</span>summarizes the UI strings for your custom keyboard that you can configure in the <code class="code-voice">Info.plist</code> files for the keyboard and its containing app.
+</p><div class="tableholder">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW9"></a>
+  <table class="graybox" border="0" cellspacing="0" cellpadding="5">
+    <caption class="tablecaption"><strong class="caption-number">Table 8-3</strong>User interface strings specified in target and containing app <code class="code-voice">Info.plist</code> files</caption>
+    <thead>
+        <tr>
+            <th scope="col" class="TableHeading_TableRow_TableCell"><p class="para">
+  iOS user interface text
+</p></th>
+            <th scope="col" class="TableHeading_TableRow_TableCell"><p class="para">
+  <code class="code-voice">Info.plist</code> key
+</p></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td scope="row"><ul class="list-bullet">
+  <li class="item"><p class="para">
+  Keyboard group name in Purchased Keyboards list in Settings
+</p>
+</li>
+</ul></td>
+            <td><p class="para">
+  Bundle display name in <em>containing app’s</em> <code class="code-voice">Info.plist</code> file
+</p></td>
+        </tr>
+        <tr>
+            <td scope="row"><ul class="list-bullet">
+  <li class="item"><p class="para">
+  Keyboard name displayed in Settings
+</p>
+</li><li class="item"><p class="para">
+  Keyboard name displayed in the Globe key menu
+</p>
+</li>
+</ul></td>
+            <td><p class="para">
+  Bundle display name in <em>custom keyboard target’s</em> <code class="code-voice">Info.plist</code> file
+</p></td>
+        </tr>
+    </tbody>
+  </table>
+</div><p class="para">
+  Now you can run the template-based keyboard in iOS Simulator, or on a device, to explore its behavior and capabilities.
+</p><p class="para">
+  <strong>To run the custom keyboard and attach the Xcode debugger</strong>
+</p><ol class="list-number">
+  <li class="item"><p class="para">
+  In Xcode, set a breakpoint in your view controller implementation. 
+</p>
+<p class="para">
+  For example, set a breakpoint in the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/1621495-viewdidload" class="urlLink">viewDidLoad</a></code> method.
+</p>
+</li><li class="item"><p class="para">
+  Use the Xcode toolbar to ensure that the active scheme popup menu specifies the keyboard’s scheme and an iOS Simulator or attached device.
+</p>
+</li><li class="item"><p class="para">
+  Choose Product &gt; Run, or click the Play button at the upper left of the Xcode project window. 
+</p>
+<p class="para">
+  Xcode prompts you to select a host app. Select an app with a readily-available text field, such as Contacts or Safari.
+</p>
+</li><li class="item"><p class="para">
+  Click Run.
+</p>
+<p class="para">
+  Xcode runs your specified host app. If this is your first time deploying your keyboard extension to iOS Simulator or a device, use Settings to add and enable the keyboard, as follows:
+</p>
+<ol class="list-number">
+  <li class="item"><p class="para">
+  Go to Settings &gt; General &gt; Keyboard &gt; Keyboards.
+</p>
+</li><li class="item"><p class="para">
+  Tap Add New Keyboard.
+</p>
+</li><li class="item"><p class="para">
+  In the Purchased Keyboards group, tap the name of your new keyboard. A modal view appears with a switch to enable your keyboard.
+</p>
+</li><li class="item"><p class="para">
+  Tap the switch to enable your keyboard. A warning alert appears. 
+</p>
+</li><li class="item"><p class="para">
+  In the warning alert, tap Add Keyboard to finish enabling your new keyboard. Then tap Done.
+</p>
+</li>
+</ol>
+</li><li class="item"><p class="para">
+  In iOS Simulator or on the attached device, invoke your custom keyboard.
+</p>
+<p class="para">
+  To do this, tap to place the insertion point in a text field—in any app, or in the Spotlight field in Springboard—to display the system keyboard. Then press and hold the Globe key and choose your custom keyboard.
+</p>
+<p class="para">
+  Now you can explore your custom keyboard’s behavior, but the debugger is not yet attached. The bare-bones keyboard built from the template has only one behavior, indicated by its Next Keyboard button: allowing you to switch back to the previously used keyboard.
+</p>
+<p class="para">
+  Before continuing, ensure that your custom keyboard is active.
+</p>
+</li><li class="item"><p class="para">
+  Dismiss your keyboard (so that in step 8 you can hit the <code class="code-voice u-api-no-link">viewDidLoad</code> breakpoint by again invoking the keyboard).
+</p>
+</li><li class="item"><p class="para">
+  In Xcode, choose Debug &gt; Attach to Process &gt; By Process Identifier (PID) or Name.
+</p>
+<p class="para">
+  In the sheet that appears, enter the name of your keyboard extension (including spaces) as you specified it when creating it. By default, this is the name for the app extension’s group in the project navigator.
+</p>
+</li><li class="item"><p class="para">
+  Click Attach.
+</p>
+<p class="para">
+  Xcode indicates in the Debug navigator that it is waiting to attach.
+</p>
+</li><li class="item"><p class="para">
+  In any app in iOS Simulator or the device (depending on which you are using), invoke the keyboard by tapping in a text field.
+</p>
+<p class="para">
+  As your keyboard’s main view begins to load, the Xcode debugger attaches to your keyboard and Xcode hits your breakpoint.
+</p>
+</li>
+</ol>
+  
+</section>
+<section class="section">
+  <a name="//apple_ref/doc/uid/TP40014214-CH16-SW18"></a>
+  <h3 class="section-name" tabindex="0">Configuring the Info.plist file for a Custom Keyboard</h3>
+  <p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  
+</p><p class="para">
+  The information property list (<code class="code-voice">Info.plist</code> file) keys that are specific to a custom keyboard let you statically declare the salient characteristics of your keyboard, including its primary language and whether it requires open access.
+</p><p class="para">
+  To examine these keys, open an Xcode project to which you’ve added a Custom Keyboard target template. Now select the <code class="code-voice">Info.plist</code> file in the Project navigator (the <code class="code-voice">Info.plist </code>file is in the Supporting Files folder for the keyboard target).
+</p><p class="para">
+  In source text form, the keys for a custom keyboard are as follows:
+</p><section class="code-listing">
+  
+  <div class="code-sample">
+      <div class="">
+        <ol class="code-lines">
+            <li><code class="code-voice">&lt;key&gt;NSExtension&lt;/key&gt;</code></li>
+            <li><code class="code-voice">&lt;dict&gt;</code></li>
+            <li><code class="code-voice">    &lt;key&gt;NSExtensionAttributes&lt;/key&gt;</code></li>
+            <li><code class="code-voice">    &lt;dict&gt;</code></li>
+            <li><code class="code-voice">        &lt;key&gt;IsASCIICapable&lt;/key&gt;</code></li>
+            <li><code class="code-voice">        &lt;false/&gt;</code></li>
+            <li><code class="code-voice">        &lt;key&gt;PrefersRightToLeft&lt;/key&gt;</code></li>
+            <li><code class="code-voice">        &lt;false/&gt;</code></li>
+            <li><code class="code-voice">        &lt;key&gt;PrimaryLanguage&lt;/key&gt;</code></li>
+            <li><code class="code-voice">        &lt;string&gt;en-US&lt;/string&gt;</code></li>
+            <li><code class="code-voice">        &lt;key&gt;RequestsOpenAccess&lt;/key&gt;</code></li>
+            <li><code class="code-voice">        &lt;false/&gt;</code></li>
+            <li><code class="code-voice">    &lt;/dict&gt;</code></li>
+            <li><code class="code-voice">    &lt;key&gt;NSExtensionPointIdentifier&lt;/key&gt;</code></li>
+            <li><code class="code-voice">    &lt;string&gt;com.apple.keyboard-service&lt;/string&gt;</code></li>
+            <li><code class="code-voice">    &lt;key&gt;NSExtensionPrincipalClass&lt;/key&gt;</code></li>
+            <li><code class="code-voice">    &lt;string&gt;KeyboardViewController&lt;/string&gt;</code></li>
+            <li><code class="code-voice">&lt;/dict&gt;</code></li>
+        </ol>
+      </div>
+  </div>
+</section><p class="para">
+  
+</p><p class="para">
+  Each of these keys is explained in <a href="../../Reference/InfoPlistKeyReference/Articles/AppExtensionKeys.html#//apple_ref/doc/uid/TP40014212" data-renderer-version="1" target="_self">App Extension Keys</a>. Use the keys in the <code class="code-voice">NSExtensionAttributes</code> dictionary to express the characteristics and needs of your custom keyboard, as follows:
+</p><p class="para">
+  <code class="code-voice">IsASCIICapable</code>—This Boolean value, <code class="k-constant-name code-voice Objective-C">NO</code><code class="k-constant-name code-voice Swift">false</code> by default, expresses whether a custom keyboard can insert ASCII strings into a document. Set this value to <code class="k-constant-name code-voice Objective-C">YES</code><code class="k-constant-name code-voice Swift">true</code> if you provide a keyboard type specifically for the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uikeyboardtype/uikeyboardtypeasciicapable" class="urlLink">UIKeyboardTypeASCIICapable</a></code> keyboard type trait.
+</p><p class="para">
+  <code class="code-voice">PrefersRightToLeft</code>—This Boolean value, also <code class="k-constant-name code-voice Objective-C">NO</code><code class="k-constant-name code-voice Swift">false</code> by default, expresses whether a custom keyboard is for a right-to-left language. Set this value to <code class="k-constant-name code-voice Objective-C">YES</code><code class="k-constant-name code-voice Swift">true</code> if your keyboard’s primary language is right-to-left.
+</p><p class="para">
+  <code class="code-voice">PrimaryLanguage</code>—This string value, <code class="code-voice">en-US</code> (English for the US) by default, expresses the primary language for your keyboard using the pattern <code class="code-voice">&lt;language&gt;-&lt;REGION&gt;</code>. You can find a list of strings corresponding to languages and regions at <a href="http://www.opensource.apple.com/source/CF/CF-476.14/CFLocaleIdentifier.c">http://www.opensource.apple.com/source/CF/CF-476.14/CFLocaleIdentifier.c</a>.
+</p><p class="para">
+  <code class="code-voice">RequestsOpenAccess</code>—This Boolean value, <code class="k-constant-name code-voice Objective-C">NO</code><code class="k-constant-name code-voice Swift">false</code> by default, expresses whether a custom keyboard wants to enlarge its sandbox beyond that needed for a basic keyboard. If you request open access by setting this key’s value to <code class="k-constant-name code-voice Objective-C">YES</code><code class="k-constant-name code-voice Swift">true</code>, your keyboard gains the following capabilities, each with a concomitant responsibility in terms of user trust:
+</p><ul class="list-bullet">
+  <li class="item"><p class="para">
+  Access to Location Services, the Address Book database, and the Camera Roll, each requiring user permission on first access
+</p>
+</li><li class="item"><p class="para">
+  Option to use a shared container with the keyboard’s containing app, which enables features such as providing a custom lexicon management UI in the containing app
+</p>
+</li><li class="item"><p class="para">
+  Ability to send keystrokes, other input events, and data over the network for server-side processing
+</p>
+</li><li class="item"><p class="para">
+  Ability to use the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uipasteboard" class="urlLink">UIPasteboard</a></code> class
+</p>
+</li><li class="item"><p class="para">
+  Ability to play audio, including keyboard clicks using the <code class="code-voice u-api"><a href="https://developer.apple.com/documentation/uikit/uidevice/1620050-playinputclick" class="urlLink">playInputClick</a></code> method
+</p>
+</li><li class="item"><p class="para">
+  Access to iCloud, which you can use, for example, to ensure that keyboard settings and your custom autocorrect lexicon are up to date on all devices owned by the user
+</p>
+</li><li class="item"><p class="para">
+  Access to Game Center and In-App Purchase, via the containing app
+</p>
+</li><li class="item"><p class="para">
+  Ability to work with managed apps, if you design your keyboard to support mobile device management (MDM)
+</p>
+</li>
+</ul><p class="para">
+  When considering whether to set the <code class="code-voice">RequestsOpenAccess</code> key’s value to <code class="k-constant-name code-voice Objective-C">YES</code><code class="k-constant-name code-voice Swift">true</code>, be sure to read <span class="x-name"><a href="#//apple_ref/doc/uid/TP40014214-CH16-SW3" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH16-SW3">Designing for User Trust</a></span>, which describes your responsibilities for respecting and protecting user data.
+</p><p class="para">
+  
+</p>
+  
+</section>
+
+</section>
+
+  	
+ 	<section id="next_previous" class="">
+    		<p class="previous-link"><a href="ContentBlocker.html#//apple_ref/doc/uid/TP40014214-CH26-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH26-SW1">Content Blocker</a></p>
+  			<p class="next-link"><a href="FileProvider.html#//apple_ref/doc/uid/TP40014214-CH18-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH18-SW1">Document Provider</a></p>
+
+    <p class="copyright">Copyright &#x00a9; 2018 Apple Inc. All rights reserved. 
+  <a class="link" href="http://www.apple.com/legal/terms/site.html" target="_blank" rel="external">Terms of Use</a> | 
+  <a class="link" href="http://www.apple.com/privacy/" target="_blank" rel="external">Privacy Policy</a> | 
+  <a href="RevisionHistory.html#//apple_ref/doc/uid/TP40014214-CH99-SW1" data-renderer-version="2" data-id="//apple_ref/doc/uid/TP40014214-CH99-SW1">Updated: 2017-10-19</a>
+</p>
+  </section>
+</article>
+
+    </div>
+    <div id='big_button'></div>
+    <footer id="footer">
+  <script src="../../../../Resources/1282/JavaScript/devpubs-1.6.3.js" type="text/javascript" charset="utf-8"></script>
+  <div id="_omniture_top">
+<!-- SiteCatalyst code version: H.8. Copyright 1997-2006 Omniture, Inc. -->
+<script type="text/javascript">
+/* RSID: */
+var s_account="awdappledeveloper"
+</script>
+
+<script type="text/javascript" src="https://developer.apple.com/assets/metrics/scripts/analytics.js"></script>
+<script type="text/javascript">
+s.channel="www.documentationarchive.developer"
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+var s_code=s.t();if(s_code)document.write(s_code)</script>
+<!-- End SiteCatalyst code version: H.8. -->
+</div>
+
+</footer>
+
+    
+  </body>
+    <div id="blackout">
+    <div id="preload"></div>
+</div>
+<div id="modal" aria-hidden="true">
+    <div id="closebox" tabindex="0" aria-label="Close feedback form" role="button"></div>
+    <div id="sending" class="hidden">
+        <h2 tabindex="0">Sending feedback&hellip;</h2>
+        <div id="sending_img"></div>
+    </div>
+    <div id="error" class="hidden">
+        <h2 tabindex="0">We&rsquo;re sorry, an error has occurred.</h2>
+        <p>Please try submitting your feedback later.</p>
+        <div id="error_icon"></div>
+    </div>
+    <div id="success" class="hidden">
+        <h2 tabindex="0">Thank you for providing feedback!</h2>
+        <p>Your input helps improve our developer documentation.</p>
+        <div id="thank_you_icon"></div>
+    </div>
+    
+    <form id="feedback" action="#" method="post">
+        <div class="left-leaf">
+            <h2 id="helpful_title" data-asterisk="a1" tabindex="0">How helpful is this document?</h2>     
+            <sup id="a1" class="asterisk" aria-hidden="true">*</sup>
+
+            <div id="star_group" role="radiogroup" aria-required="true">
+                <label> 
+                    <input class="radio" type="radio" name="helped" value="1" /> 
+                    Very helpful
+                </label>
+                <label> 
+                    <input class="radio" type="radio" name="helped" value="2" /> 
+                    Somewhat helpful
+                </label>
+                <label>
+                    <input class="radio" type="radio" name="helped" value="3" /> 
+                    Not helpful
+                </label>
+            </div>
+        </div>
+        <div class="right-leaf">
+            <h2>How can we improve this document?</h2>
+            <div id="improve" class="checkboxes">
+                <label>
+                    <input type="checkbox" name="typo" /> 
+                    Fix typos or links
+                </label>
+                <label>
+                    <input type="checkbox" name="infoIncorrect" /> 
+                    Fix incorrect information
+                </label>
+                <label>
+                    <input type="checkbox" name="needs_examples" /> 
+                    Add or update code samples
+                </label>
+                <label>
+                    <input type="checkbox" name="needs_art" /> 
+                    Add or update illustrations
+                </label>
+                <label>
+                    <input type="checkbox" name="missingInfo" /> 
+                    Add information about...
+                </label>
+            </div>
+        </div>
+
+        <textarea id="comment" name="problem" cols="70" rows="8" placeholder="Please tell us more about your experience with this document" data-asterisk="a2" required></textarea>
+        <sup id="a2" class="asterisk" aria-hidden="true">*</sup>
+
+        <p class="fineprint">
+            <em aria-hidden="true"><span>*</span> Required information</em>
+        </p> 
+
+        <input id="submit" type="button" value="Send" />
+
+        <section id="legal">
+            <p>
+                To submit a product bug or enhancement request, please visit the 
+                <a href="https://developer.apple.com/bugreporter/" target="_blank">Bug Reporter</a> 
+                page.
+            </p>
+            <p>
+                Please read <a href="http://www.apple.com/legal/policies/ideas.html" target="_blank">Apple's Unsolicited Idea Submission Policy</a> 
+                before you send us your feedback.
+            </p> 
+        </section>
+    </form>
+</div>
+
+</div>
+</html>
