@@ -1,0 +1,1552 @@
+# iOS原生26键 —— 复刻 iOS 原生中文键盘外观的自定义键盘（仓输入法/Hamster）
+# 共十三张键盘：iOS原生（主）/ iOS原生数字（123）/ iOS原生符号（#+=）/ 表情 10 类（iOS原生表情=笑脸、手势、人物、动物、食物、活动、旅行、物品、符号、旗帜）
+#
+# 为什么需要这个文件：
+#   内置 chinese 26 键的外观写死在仓 App 里，与 iOS 原生截图相比有这些差异，
+#   且 hamster.yaml 都调不到，只能靠自定义键盘（keyboards 节点）逐项对齐：
+#   - 内置键帽带 ¹²³ 等键位提示字符   → 本键盘 swipe 全部 display: false（上划功能保留，字不显示）
+#   - 内置功能键是灰帽                 → 本键盘所有键统一白帽 #FFFFFF（原生实测如此）
+#   - 内置空格写「空格」、回车写「换行」 → 本键盘空格只有淡灰「双」水印、回车是 ↵ 图标
+#   - 内置有 中/En 键、空格左侧是 ，。 键 → 本键盘按原生改为 😊 键，中/En 键删除（原生没有，
+#     英文走系统地球键，与原生行为一致）
+#   - 内置字母键显示大写               → 本键盘 label 即小写字符
+#
+# 真机复验后的两处修正（2026-11）：
+#   1) 行三 shift/退格 0.116+7×0.1+0.116=0.932 不满行，m 与 ⌫ 之间出现空隙
+#      → 两侧改 0.15，合计正好 1.0
+#   2) 123 键原指向 numericNineGrid（九宫格）→ 改为自建「iOS原生数字」键盘（123 横排，复刻 iOS）
+#      😊 键原指向 classifySymbolic → 改为自建「iOS原生表情」键盘（keyboardType(emojis) 是预留功能）
+#
+# 键位与内置中文 26 键完全一致（26 字母 + ; 键），double_pinyin_mspy 的 104/104
+# 键位校验结论继续有效；上划出数字/符号的动作保留（只是不显示提示字），同 iOS。
+#
+# 颜色均为 BGR 格式（0xAABBGGRR），与 hamster.yaml colorSchemas 一致，注意与皮肤(.hskin)的 RGB 格式不同。
+# 采样自目标截图（iOS 原生中文键盘，1320px 宽 @3x）：
+#   键帽全部白 #FFFFFF / 键盘底 #E3E4E8 / 字色黑 #000000 / 空格「双」水印灰 #B0B0B0
+#   行三 shift=退格=0.15（补齐整行，不留缝）；行四 123=0.111、😊=0.111、↵=0.237、空格=剩余
+
+keyboards:
+  # ══════════════ 主键盘（26 键）══════════════
+  - name: "iOS原生"
+    isPrimary: true
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'   # RGB #D6D6DB 按下变淡灰（iOS 触感态）
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:                                            # 123 / ↵ / shift / 退格：同为白帽
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      space:                                         # 空格：淡灰小字「双」水印（原生实测 #B0B0B0 左右）
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'          # RGB #6C6C6E
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      spaceDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFF8E8C8E'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFF8E8C8E'
+        fontSize: 12
+        cornerRadius: 5
+    rows:
+      # 第一行：q~p。上划出 1~0（iOS 原生支持但键面不显示提示字 → display: false）
+      - keys:
+          - action: { character: { char: q } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "1" } }, display: false } ]
+          - action: { character: { char: w } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "2" } }, display: false } ]
+          - action: { character: { char: e } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "3" } }, display: false } ]
+          - action: { character: { char: r } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "4" } }, display: false } ]
+          - action: { character: { char: t } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "5" } }, display: false } ]
+          - action: { character: { char: y } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "6" } }, display: false } ]
+          - action: { character: { char: u } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "7" } }, display: false } ]
+          - action: { character: { char: i } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "8" } }, display: false } ]
+          - action: { character: { char: o } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "9" } }, display: false } ]
+          - action: { character: { char: p } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "0" } }, display: false } ]
+      # 第二行：a~l + ;（displaySemicolonButton 同款），上划出符号（同 iOS，不显示提示）
+      - keys:
+          - action: { character: { char: a } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "`" } }, display: false } ]
+          - action: { character: { char: s } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "/" } }, display: false } ]
+          - action: { character: { char: d } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: ":" } }, display: false } ]
+          - action: { character: { char: f } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: ";" } }, display: false } ]
+          - action: { character: { char: g } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "(" } }, display: false } ]
+          - action: { character: { char: h } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: ")" } }, display: false } ]
+          - action: { character: { char: j } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "~" } }, display: false } ]
+          - action: { character: { char: k } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: '"' } }, display: false } ]
+          - action: { character: { char: l } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "'" } }, display: false } ]
+          - action: { character: { char: ";" } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+      # 第三行：shift + z~m + 退格。宽度 0.15+7×0.1+0.15=1.0 正好满行（0.116 会留缝，真机复验修正）
+      - keys:
+          - action: shift
+            width: { percentage: 0.15 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - action: { character: { char: z } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "@" } }, display: false } ]
+          - action: { character: { char: x } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "." } }, display: false } ]
+          - action: { character: { char: c } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "#" } }, display: false } ]
+          - action: { character: { char: v } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { symbol: { char: "、" } }, display: false } ]
+          - action: { character: { char: b } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "?" } }, display: false } ]
+          - action: { character: { char: n } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { character: { char: "!" } }, display: false } ]
+          - action: { character: { char: m } }
+            lightModeStyleName: letter
+            darkModeStyleName: letterDark
+            swipe: [ { direction: up, action: { symbol: { char: "…" } }, display: false } ]
+          - action: backspace
+            width: { percentage: 0.15 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+      # 第四行：123(0.111) | 😊(0.111) | 空格+双水印(剩余) | ↵(0.237)
+      # 123 → 自建数字键盘「iOS原生数字」（123 横排，复刻 iOS）；不再用 numericNineGrid
+      # 😊  → 自建表情键盘「iOS原生表情」；keyboardType(emojis) 是预留功能不可用
+      - keys:
+          - action: { keyboardType: iOS原生数字 }
+            label: "123"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - action: { keyboardType: iOS原生表情 }
+            label: { systemImageName: smiley }
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - action: space
+            width: available
+            label: { text: "双" }
+            lightModeStyleName: space
+            darkModeStyleName: spaceDark
+          - action: enter
+            label: "↵"
+            width: { percentage: 0.237 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  # ══════════════ 数字键盘（123 页，复刻 iOS 原生数字面板）══════════════
+  # 对照第二张目标图：1234567890 / -/:;()¥@"" / #+= 。，、？！. ⌫ / 双拼 😊 空格 
+  # 数字与符号键全部用 symbol（直接上屏，不经编码），与 iOS 行为一致
+  - name: "iOS原生数字"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      spaceDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFF8E8C8E'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFF8E8C8E'
+        fontSize: 12
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "1" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "2" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "3" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "4" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "5" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "6" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "7" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "8" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "9" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "0" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "-" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "/" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: ":" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: ";" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "(" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: ")" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "¥" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "@" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "“" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "”" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 第三行：#+=(0.2) 六个符号(各0.1) ⌫(0.2) = 1.0；#+= 打开自建符号页「iOS原生符号」（复刻原生 #+= 页）
+      - keys:
+          - action: { keyboardType: iOS原生符号 }
+            label: "#+="
+            width: { percentage: 0.2 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { symbol: { char: "。" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "，" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "、" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "？" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "！" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "." } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - action: backspace
+            width: { percentage: 0.2 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+      # 第四行：双拼(回主键盘) 😊(表情页) 空格(双) ↵ —— 与主键盘行四同宽
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - action: { keyboardType: iOS原生表情 }
+            label: { systemImageName: smiley }
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - action: space
+            width: available
+            label: { text: "双" }
+            lightModeStyleName: space
+            darkModeStyleName: spaceDark
+          - action: enter
+            label: "↵"
+            width: { percentage: 0.237 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  # ══════════════ 符号键盘（#+= 页）══════════════
+  # 复刻 iOS 原生数字页再按 #+= 的符号页（用户提供截图实测）：
+  # 行1 【】{}#%^*+= 行2 _—\|~«»$&· 行3 123 …,^^?!' ⌫ 行4 双拼 😊 空格 ↵
+  # 全部 symbol 直接上屏；123 回数字页，双拼回主键盘，😊 去表情页。
+  - name: "iOS原生符号"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      spaceDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFF8E8C8E'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFF8E8C8E'
+        fontSize: 12
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "【" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "】" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "{" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "}" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "#" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "%" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "^" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "*" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "+" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "=" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "_" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "—" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "\\" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "|" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "~" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "«" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "»" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "$" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "&" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "·" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 第三行：123(0.2 回数字页) 六个符号(各0.1) ⌫(0.2) = 1.0
+      - keys:
+          - action: { keyboardType: iOS原生数字 }
+            label: "123"
+            width: { percentage: 0.2 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { symbol: { char: "…" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "," } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "^^" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "?" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "!" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "'" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - action: backspace
+            width: { percentage: 0.2 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+      # 第四行：与数字页行四同构
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - action: { keyboardType: iOS原生表情 }
+            label: { systemImageName: smiley }
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - action: space
+            width: available
+            label: { text: "双" }
+            lightModeStyleName: space
+            darkModeStyleName: spaceDark
+          - action: enter
+            label: "↵"
+            width: { percentage: 0.237 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  # ═══════════ 表情键盘（😊 页，10 个分类共 320 枚，复刻原生面板）═══════════
+  # 原生 emoji 面板 = 搜索栏 + 4×8 网格 + 底行（双拼 | 灰色分类图标 | ⌫）。
+  # 配置层没有滚动/搜索，故每个分类做成一张独立键盘；底行 10 个分类图标用
+  # label.systemImageName（SF Symbol 单色，keyStyle 可调灰色），整页互切：
+  #   face.smiling笑脸 hand.raised手势 person.fill人物 pawprint动物 fork.knife食物
+  #   soccerball活动 airplane旅行 lightbulb物品 heart符号 flag旗帜（每类 32 枚）
+  # 😀 入口键帽 = smiley 线稿（SF Symbols 1.0，张口笑=😀的线稿形；黑/白随主题）。键（主/数字/符号页）打开「iOS原生表情」（笑脸页）。
+  # 底行与原生一致、无空格键（原生表情面板也没有空格）。
+  # 做不到（已知差异）：搜索栏、当前分类高亮（配置层无状态）、键盘内滚动。
+
+  - name: "iOS原生表情"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      tab:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF938E8E'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF938E8E'
+        fontSize: 15
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      tabDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFB2AEAE'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFB2AEAE'
+        fontSize: 15
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "😀" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😂" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥰" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😍" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😘" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😊" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😜" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😎" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🤔" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤭" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤗" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🙃" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😏" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😌" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😴" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😪" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🥺" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😭" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😅" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😡" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😱" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤣" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😇" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🙂" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🤪" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤫" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥳" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😲" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😶" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤢" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤮" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "😷" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 底行（复刻原生）：双拼(回主键盘) + 10 个单色分类图标 + ⌫
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情手势 }, label: { systemImageName: hand.raised }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情人物 }, label: { systemImageName: person.fill }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情动物 }, label: { systemImageName: pawprint }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情食物 }, label: { systemImageName: fork.knife }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情活动 }, label: { systemImageName: soccerball }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旅行 }, label: { systemImageName: airplane }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情物品 }, label: { systemImageName: lightbulb }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情符号 }, label: { systemImageName: heart }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旗帜 }, label: { systemImageName: flag }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - action: backspace
+            width: available
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  - name: "iOS表情手势"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      tab:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF938E8E'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF938E8E'
+        fontSize: 15
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      tabDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFB2AEAE'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFB2AEAE'
+        fontSize: 15
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "👍" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👎" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👌" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "✌️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤞" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤙" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👈" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👉" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "👆" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👇" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🖐️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "✋" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👋" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤚" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "💪" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🫵" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🤝" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🙌" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👏" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🫱" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🫲" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🫳" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🫴" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🖖" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🤟" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🫰" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤏" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🫷" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🫸" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👊" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤛" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤜" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 底行（复刻原生）：双拼(回主键盘) + 10 个单色分类图标 + ⌫
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情手势 }, label: { systemImageName: hand.raised }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情人物 }, label: { systemImageName: person.fill }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情动物 }, label: { systemImageName: pawprint }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情食物 }, label: { systemImageName: fork.knife }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情活动 }, label: { systemImageName: soccerball }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旅行 }, label: { systemImageName: airplane }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情物品 }, label: { systemImageName: lightbulb }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情符号 }, label: { systemImageName: heart }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旗帜 }, label: { systemImageName: flag }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - action: backspace
+            width: available
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  - name: "iOS表情人物"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      tab:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF938E8E'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF938E8E'
+        fontSize: 15
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      tabDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFB2AEAE'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFB2AEAE'
+        fontSize: 15
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "👶" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👦" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👧" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧒" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👨" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👩" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧓" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👴" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "👵" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👮" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👷" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "💂" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🕵️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧙" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧛" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧟" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "💃" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🕺" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👯" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚶" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏃" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧍" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧎" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤺" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "👀" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👅" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👃" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧠" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🦷" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🫦" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "👂" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🦻" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 底行（复刻原生）：双拼(回主键盘) + 10 个单色分类图标 + ⌫
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情手势 }, label: { systemImageName: hand.raised }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情人物 }, label: { systemImageName: person.fill }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情动物 }, label: { systemImageName: pawprint }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情食物 }, label: { systemImageName: fork.knife }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情活动 }, label: { systemImageName: soccerball }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旅行 }, label: { systemImageName: airplane }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情物品 }, label: { systemImageName: lightbulb }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情符号 }, label: { systemImageName: heart }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旗帜 }, label: { systemImageName: flag }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - action: backspace
+            width: available
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  - name: "iOS表情动物"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      tab:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF938E8E'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF938E8E'
+        fontSize: 15
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      tabDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFB2AEAE'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFB2AEAE'
+        fontSize: 15
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "🐶" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐱" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐭" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐹" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐰" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🦊" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐻" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐼" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🐨" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐯" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🦁" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐮" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐷" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐸" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐵" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🙈" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🐔" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐧" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐦" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🦆" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🦉" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐺" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🐗" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🦄" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🌵" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌲" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌳" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌴" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌸" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌹" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌻" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌈" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 底行（复刻原生）：双拼(回主键盘) + 10 个单色分类图标 + ⌫
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情手势 }, label: { systemImageName: hand.raised }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情人物 }, label: { systemImageName: person.fill }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情动物 }, label: { systemImageName: pawprint }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情食物 }, label: { systemImageName: fork.knife }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情活动 }, label: { systemImageName: soccerball }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旅行 }, label: { systemImageName: airplane }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情物品 }, label: { systemImageName: lightbulb }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情符号 }, label: { systemImageName: heart }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旗帜 }, label: { systemImageName: flag }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - action: backspace
+            width: available
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  - name: "iOS表情食物"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      tab:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF938E8E'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF938E8E'
+        fontSize: 15
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      tabDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFB2AEAE'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFB2AEAE'
+        fontSize: 15
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "🍏" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍎" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍐" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍊" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍋" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍌" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍉" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍇" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🍓" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍒" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍑" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥭" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍍" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥝" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍅" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥑" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🍔" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍟" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍕" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌭" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍗" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥓" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥪" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌮" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🍚" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍜" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍲" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍱" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍦" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍰" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎂" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "☕" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 底行（复刻原生）：双拼(回主键盘) + 10 个单色分类图标 + ⌫
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情手势 }, label: { systemImageName: hand.raised }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情人物 }, label: { systemImageName: person.fill }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情动物 }, label: { systemImageName: pawprint }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情食物 }, label: { systemImageName: fork.knife }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情活动 }, label: { systemImageName: soccerball }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旅行 }, label: { systemImageName: airplane }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情物品 }, label: { systemImageName: lightbulb }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情符号 }, label: { systemImageName: heart }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旗帜 }, label: { systemImageName: flag }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - action: backspace
+            width: available
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  - name: "iOS表情活动"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      tab:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF938E8E'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF938E8E'
+        fontSize: 15
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      tabDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFB2AEAE'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFB2AEAE'
+        fontSize: 15
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "⚽" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏀" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏈" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⚾" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎾" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏐" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏉" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎱" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🏓" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏸" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥅" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏒" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏑" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥍" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏏" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⛳" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🎮" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎲" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎯" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎳" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧩" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎨" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎤" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎧" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🏆" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥇" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥈" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥉" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏅" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎪" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎟️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🥏" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 底行（复刻原生）：双拼(回主键盘) + 10 个单色分类图标 + ⌫
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情手势 }, label: { systemImageName: hand.raised }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情人物 }, label: { systemImageName: person.fill }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情动物 }, label: { systemImageName: pawprint }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情食物 }, label: { systemImageName: fork.knife }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情活动 }, label: { systemImageName: soccerball }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旅行 }, label: { systemImageName: airplane }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情物品 }, label: { systemImageName: lightbulb }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情符号 }, label: { systemImageName: heart }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旗帜 }, label: { systemImageName: flag }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - action: backspace
+            width: available
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  - name: "iOS表情旅行"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      tab:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF938E8E'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF938E8E'
+        fontSize: 15
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      tabDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFB2AEAE'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFB2AEAE'
+        fontSize: 15
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "🚗" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚕" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚌" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚓" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚑" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚒" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚲" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "✈️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🚀" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🛸" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚁" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⛵" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚤" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚢" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🛳️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚂" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🏠" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏡" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏰" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏯" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🗼" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⛪" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🖬" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌃" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🗻" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌋" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏝️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏔️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⛱️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎡" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎢" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏖️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 底行（复刻原生）：双拼(回主键盘) + 10 个单色分类图标 + ⌫
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情手势 }, label: { systemImageName: hand.raised }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情人物 }, label: { systemImageName: person.fill }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情动物 }, label: { systemImageName: pawprint }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情食物 }, label: { systemImageName: fork.knife }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情活动 }, label: { systemImageName: soccerball }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旅行 }, label: { systemImageName: airplane }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情物品 }, label: { systemImageName: lightbulb }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情符号 }, label: { systemImageName: heart }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旗帜 }, label: { systemImageName: flag }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - action: backspace
+            width: available
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  - name: "iOS表情物品"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      tab:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF938E8E'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF938E8E'
+        fontSize: 15
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      tabDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFB2AEAE'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFB2AEAE'
+        fontSize: 15
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "💡" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🔦" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "📱" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "💻" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⌨️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🖥️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🖨️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🖱️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "📷" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "📹" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎥" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "📞" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "☎️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "📟" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "📺" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "📻" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "⏰" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⏱️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⏳" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "📅" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "📆" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🗓️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "📇" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🗃️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🔑" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🗝" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🔏" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🔓" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🛋️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🛏️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚿" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🛁" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 底行（复刻原生）：双拼(回主键盘) + 10 个单色分类图标 + ⌫
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情手势 }, label: { systemImageName: hand.raised }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情人物 }, label: { systemImageName: person.fill }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情动物 }, label: { systemImageName: pawprint }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情食物 }, label: { systemImageName: fork.knife }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情活动 }, label: { systemImageName: soccerball }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旅行 }, label: { systemImageName: airplane }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情物品 }, label: { systemImageName: lightbulb }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情符号 }, label: { systemImageName: heart }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旗帜 }, label: { systemImageName: flag }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - action: backspace
+            width: available
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  - name: "iOS表情符号"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      tab:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF938E8E'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF938E8E'
+        fontSize: 15
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      tabDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFB2AEAE'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFB2AEAE'
+        fontSize: 15
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "❤️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧡" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "💛" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "💚" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "💙" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "💜" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🖤" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🤍" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "💔" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "💯" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "✨" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⭐" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "💫" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🌟" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "❄️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🔥" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "✅" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "❌" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⭕" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "❗" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "❓" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "💤" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎵" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🔔" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "™️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "#️⃣" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "*️⃣" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "➡️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🆗" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🆙" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🛑" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "⚠️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 底行（复刻原生）：双拼(回主键盘) + 10 个单色分类图标 + ⌫
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情手势 }, label: { systemImageName: hand.raised }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情人物 }, label: { systemImageName: person.fill }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情动物 }, label: { systemImageName: pawprint }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情食物 }, label: { systemImageName: fork.knife }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情活动 }, label: { systemImageName: soccerball }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旅行 }, label: { systemImageName: airplane }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情物品 }, label: { systemImageName: lightbulb }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情符号 }, label: { systemImageName: heart }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旗帜 }, label: { systemImageName: flag }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - action: backspace
+            width: available
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
+  - name: "iOS表情旗帜"
+    keyStyle:
+      letter:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 25
+        cornerRadius: 5
+      fn:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF000000'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF000000'
+        fontSize: 17
+        cornerRadius: 5
+      tab:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFF938E8E'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFF938E8E'
+        fontSize: 15
+        cornerRadius: 5
+      space:
+        buttonBackgroundColor: '0xFFFFFFFF'
+        buttonForegroundColor: '0xFFB0B0B0'
+        pressedButtonBackgroundColor: '0xFFDBD6D6'
+        pressedButtonForegroundColor: '0xFFB0B0B0'
+        fontSize: 12
+        cornerRadius: 5
+      letterDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 25
+        cornerRadius: 5
+      fnDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFFFFFFF'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFFFFFFF'
+        fontSize: 17
+        cornerRadius: 5
+      tabDark:
+        buttonBackgroundColor: '0xFF6E6C6C'
+        buttonForegroundColor: '0xFFB2AEAE'
+        pressedButtonBackgroundColor: '0xFF8E8C8E'
+        pressedButtonForegroundColor: '0xFFB2AEAE'
+        fontSize: 15
+        cornerRadius: 5
+    rows:
+      - keys:
+          - { action: { symbol: { char: "🏁" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🚩" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎌" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏴" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏳️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏳️‍🌈" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🏴‍☠️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🪧" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🇨🇳" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇺🇸" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇬🇧" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇯🇵" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇰🇷" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇫🇷" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇩🇪" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇮🇹" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🇪🇸" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇷🇺" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇨🇦" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇦🇺" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇧🇷" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇮🇳" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇦🇷" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🇲🇽" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      - keys:
+          - { action: { symbol: { char: "🎁" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎈" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎉" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎊" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🧧" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎄" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🎃" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+          - { action: { symbol: { char: "🍀" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
+      # 底行（复刻原生）：双拼(回主键盘) + 10 个单色分类图标 + ⌫
+      - keys:
+          - action: { keyboardType: iOS原生 }
+            label: "双拼"
+            width: { percentage: 0.111 }
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+          - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情手势 }, label: { systemImageName: hand.raised }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情人物 }, label: { systemImageName: person.fill }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情动物 }, label: { systemImageName: pawprint }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情食物 }, label: { systemImageName: fork.knife }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情活动 }, label: { systemImageName: soccerball }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旅行 }, label: { systemImageName: airplane }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情物品 }, label: { systemImageName: lightbulb }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情符号 }, label: { systemImageName: heart }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - { action: { keyboardType: iOS表情旗帜 }, label: { systemImageName: flag }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
+          - action: backspace
+            width: available
+            lightModeStyleName: fn
+            darkModeStyleName: fnDark
+
