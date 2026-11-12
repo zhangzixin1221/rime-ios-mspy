@@ -191,32 +191,16 @@ if ($xlIdx -lt 0) {
 else {
     $fuzzyRules = @(
         '    # ---- fuzzy pinyin options (ALL commented = off, like iOS native) ----',
-        '    # key map after xlit: initials v=zh i=ch u=sh | finals j=an h=ang f=en g=eng n=in ;=ing',
+        '    # key map after xlit: finals f=en g=eng n=in ;=ing',
         '    # to enable a group: remove the leading "# " from its lines, then RIME -> redeploy.',
-        '    # (1) flat/curled zh z / ch c / sh s',
-        '    # - derive/^v(.+)$/z$1/',
-        '    # - derive/^z(.+)$/v$1/',
-        '    # - derive/^i(.+)$/c$1/',
-        '    # - derive/^c(.+)$/i$1/',
-        '    # - derive/^u(.+)$/s$1/',
-        '    # - derive/^s(.+)$/u$1/',
-        '    # (2) front/back nasal an ang / en eng / in ing',
-        '    # - derive/^(.+)j$/$1h/',
-        '    # - derive/^(.+)h$/$1j/',
+        '    # (1) en / eng',
         '    # - derive/^(.+)f$/$1g/',
         '    # - derive/^(.+)g$/$1f/',
+        '    # (2) in / ing',
         '    # - derive/^(.+)n$/$1;/',
         '    # - derive/^(.+);$/$1n/',
-        '    # (3) n / l',
-        '    # - derive/^n(.+)$/l$1/',
-        '    # - derive/^l(.+)$/n$1/',
-        '    # (4) f / h',
-        '    # - derive/^f(.+)$/h$1/',
-        '    # - derive/^h(.+)$/f$1/',
-        '    # (5) r / l',
-        '    # - derive/^r(.+)$/l$1/',
-        '    # - derive/^l(.+)$/r$1/',
-        '    # (6) umlaut forms (u-with-dots / ue) intentionally absent: v is both zh and umlaut, fuzzing collides codes'
+        '    # groups zh/z ch/c sh/s, an/ang, n/l, f/h, r/l REMOVED per user request 2026-11-12',
+        '    # (umlaut forms never included: v is both zh and umlaut, fuzzing collides codes)'
     )
     $out = New-Object System.Collections.Generic.List[string]
     $out.AddRange([string[]]$schemaLines[0..$xlIdx])
