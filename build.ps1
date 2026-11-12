@@ -434,10 +434,10 @@ if ((Test-Path -LiteralPath $hamPath) -and (Test-Path -LiteralPath $refPath)) {
         'hilited_callout_back_color', 'hilited_callout_foreground_color',
         'button_bubble_back_color',
         # custom-keyboard node keys seen by the same scanner in the
-        # keyboards patch (isPrimary/keyStyle/rows at 6-space indent,
-        # "- action:"/"- keys:" via the dash rule). Without these the
-        # scanner would flag our own layout file as "unknown colour keys".
-        'isPrimary', 'keyStyle', 'rows', 'keys', 'action'
+        # keyboards patch (isPrimary/keyStyle/rows/rowHeight at 6-space
+        # indent, "- action:"/"- keys:" via the dash rule). Without these
+        # the scanner would flag our own layout file as "unknown colour keys".
+        'isPrimary', 'keyStyle', 'rows', 'keys', 'action', 'rowHeight'
     )
     $unknownColour = @()
     foreach ($line in (Get-Content -LiteralPath $hamPath -Encoding UTF8)) {

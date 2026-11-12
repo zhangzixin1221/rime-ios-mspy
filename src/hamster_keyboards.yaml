@@ -28,6 +28,7 @@
 keyboards:
   # ══════════════ 主键盘（26 键）══════════════
   - name: "iOS原生"
+    rowHeight: 56                                # 像素比对：原生行距 168px=56pt（仓默认 216pt/4=54 偏矮；若真机底部裁切则删除本行回默认）
     isPrimary: true
     keyStyle:
       letter:
@@ -36,14 +37,14 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'   # RGB #D6D6DB 按下变淡灰（iOS 触感态）
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:                                            # 123 / ↵ / shift / 退格：同为白帽
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       space:                                         # 空格：淡灰小字「双」水印（原生实测 #B0B0B0 左右）
                                                      # 原生「双」贴空格右端；label 居中绘制，故在 label 文本前
                                                      # 垫 16 个全角空格（U+3000，每个=fontSize 12pt）把字形右推
@@ -53,28 +54,28 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'          # RGB #6C6C6E
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       spaceDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFF8E8C8E'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFF8E8C8E'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       # 第一行：q~p。上划出 1~0（iOS 原生支持但键面不显示提示字 → display: false）
       - keys:
@@ -159,10 +160,11 @@ keyboards:
           - action: { character: { char: ";" } }
             lightModeStyleName: letter
             darkModeStyleName: letterDark
-      # 第三行：shift + z~m + 退格。宽度 0.15+7×0.1+0.15=1.0 正好满行（0.116 会留缝，真机复验修正）
+      # 第三行：shift + z~m + 退格。shift/退格 0.14（像素比对 v15：原生实测键宽 150px≈0.115，
+      # 但原生在 shift/退格两侧留 44px 大间隙、仓固定 18px，故取 0.14 折中；字母键自动等宽）
       - keys:
           - action: shift
-            width: { percentage: 0.15 }
+            width: { percentage: 0.14 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - action: { character: { char: z } }
@@ -194,21 +196,21 @@ keyboards:
             darkModeStyleName: letterDark
             swipe: [ { direction: up, action: { symbol: { char: "…" } }, display: false } ]
           - action: backspace
-            width: { percentage: 0.15 }
+            width: { percentage: 0.14 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
-      # 第四行：123(0.111) | 😊(0.111) | 空格+双水印(剩余) | ↵(0.237)
+      # 第四行：123(0.12) | 😊(0.12) | 空格+双水印(剩余) | ↵(0.248)（v15 像素比对：原生实测 144/144/632/307px）
       # 123 → 自建数字键盘「iOS原生数字」（123 横排，复刻 iOS）；不再用 numericNineGrid
       # 😊  → 自建表情键盘「iOS原生表情」；keyboardType(emojis) 是预留功能不可用
       - keys:
           - action: { keyboardType: iOS原生数字 }
             label: "123"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - action: { keyboardType: iOS原生表情 }
             label: { systemImageName: smiley }
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - action: space
@@ -218,7 +220,7 @@ keyboards:
             darkModeStyleName: spaceDark
           - action: enter
             label: "↵"
-            width: { percentage: 0.237 }
+            width: { percentage: 0.248 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
 
@@ -226,6 +228,7 @@ keyboards:
   # 对照第二张目标图：1234567890 / -/:;()¥@"" / #+= 。，、？！. ⌫ / 双拼 😊 空格 
   # 数字与符号键全部用 symbol（直接上屏，不经编码），与 iOS 行为一致
   - name: "iOS原生数字"
+    rowHeight: 56                                # 像素比对：原生行距 168px=56pt（仓默认 216pt/4=54 偏矮；若真机底部裁切则删除本行回默认）
     keyStyle:
       letter:
         buttonBackgroundColor: '0xFFFFFFFF'
@@ -233,42 +236,42 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       spaceDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFF8E8C8E'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFF8E8C8E'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "1" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -292,11 +295,11 @@ keyboards:
           - { action: { symbol: { char: "@" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
           - { action: { symbol: { char: "“" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
           - { action: { symbol: { char: "”" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
-      # 第三行：#+=(0.2) 六个符号(各0.1) ⌫(0.2) = 1.0；#+= 打开自建符号页「iOS原生符号」（复刻原生 #+= 页）
+      # 第三行：#+=(0.14) 六个符号(自动等宽) ⌫(0.14)（v15 像素比对：原生 150px≈0.117，折中 0.14）；#+= 打开自建符号页「iOS原生符号」（复刻原生 #+= 页）
       - keys:
           - action: { keyboardType: iOS原生符号 }
             label: "#+="
-            width: { percentage: 0.2 }
+            width: { percentage: 0.14 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { symbol: { char: "。" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -306,19 +309,19 @@ keyboards:
           - { action: { symbol: { char: "！" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
           - { action: { symbol: { char: "." } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
           - action: backspace
-            width: { percentage: 0.2 }
+            width: { percentage: 0.14 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
       # 第四行：双拼(回主键盘) 😊(表情页) 空格(双) ↵ —— 与主键盘行四同宽
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - action: { keyboardType: iOS原生表情 }
             label: { systemImageName: smiley }
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - action: space
@@ -328,7 +331,7 @@ keyboards:
             darkModeStyleName: spaceDark
           - action: enter
             label: "↵"
-            width: { percentage: 0.237 }
+            width: { percentage: 0.248 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
 
@@ -337,6 +340,7 @@ keyboards:
   # 行1 【】{}#%^*+= 行2 _—\|~«»$&· 行3 123 …,^^?!' ⌫ 行4 双拼 😊 空格 ↵
   # 全部 symbol 直接上屏；123 回数字页，双拼回主键盘，😊 去表情页。
   - name: "iOS原生符号"
+    rowHeight: 56                                # 像素比对：原生行距 168px=56pt（仓默认 216pt/4=54 偏矮；若真机底部裁切则删除本行回默认）
     keyStyle:
       letter:
         buttonBackgroundColor: '0xFFFFFFFF'
@@ -344,42 +348,42 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       spaceDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFF8E8C8E'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFF8E8C8E'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "【" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -403,11 +407,11 @@ keyboards:
           - { action: { symbol: { char: "$" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
           - { action: { symbol: { char: "&" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
           - { action: { symbol: { char: "·" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
-      # 第三行：123(0.2 回数字页) 六个符号(各0.1) ⌫(0.2) = 1.0
+      # 第三行：123(0.14 回数字页) 六个符号(自动等宽) ⌫(0.14)（v15 像素比对：原生 150px≈0.117，折中 0.14）
       - keys:
           - action: { keyboardType: iOS原生数字 }
             label: "123"
-            width: { percentage: 0.2 }
+            width: { percentage: 0.14 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { symbol: { char: "…" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -417,19 +421,19 @@ keyboards:
           - { action: { symbol: { char: "!" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
           - { action: { symbol: { char: "'" } }, lightModeStyleName: letter, darkModeStyleName: letterDark }
           - action: backspace
-            width: { percentage: 0.2 }
+            width: { percentage: 0.14 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
       # 第四行：与数字页行四同构
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - action: { keyboardType: iOS原生表情 }
             label: { systemImageName: smiley }
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - action: space
@@ -439,7 +443,7 @@ keyboards:
             darkModeStyleName: spaceDark
           - action: enter
             label: "↵"
-            width: { percentage: 0.237 }
+            width: { percentage: 0.248 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
 
@@ -461,49 +465,49 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tab:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF938E8E'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF938E8E'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tabDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFB2AEAE'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFB2AEAE'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "😀" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -545,7 +549,7 @@ keyboards:
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
@@ -571,49 +575,49 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tab:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF938E8E'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF938E8E'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tabDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFB2AEAE'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFB2AEAE'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "👍" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -655,7 +659,7 @@ keyboards:
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
@@ -681,49 +685,49 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tab:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF938E8E'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF938E8E'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tabDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFB2AEAE'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFB2AEAE'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "👶" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -765,7 +769,7 @@ keyboards:
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
@@ -791,49 +795,49 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tab:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF938E8E'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF938E8E'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tabDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFB2AEAE'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFB2AEAE'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "🐶" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -875,7 +879,7 @@ keyboards:
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
@@ -901,49 +905,49 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tab:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF938E8E'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF938E8E'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tabDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFB2AEAE'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFB2AEAE'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "🍏" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -985,7 +989,7 @@ keyboards:
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
@@ -1011,49 +1015,49 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tab:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF938E8E'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF938E8E'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tabDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFB2AEAE'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFB2AEAE'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "⚽" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -1095,7 +1099,7 @@ keyboards:
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
@@ -1121,49 +1125,49 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tab:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF938E8E'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF938E8E'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tabDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFB2AEAE'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFB2AEAE'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "🚗" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -1205,7 +1209,7 @@ keyboards:
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
@@ -1231,49 +1235,49 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tab:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF938E8E'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF938E8E'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tabDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFB2AEAE'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFB2AEAE'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "💡" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -1315,7 +1319,7 @@ keyboards:
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
@@ -1341,49 +1345,49 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tab:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF938E8E'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF938E8E'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tabDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFB2AEAE'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFB2AEAE'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "❤️" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -1425,7 +1429,7 @@ keyboards:
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
@@ -1451,49 +1455,49 @@ keyboards:
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fn:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF000000'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF000000'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tab:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFF938E8E'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFF938E8E'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
       space:
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
         pressedButtonForegroundColor: '0xFFB0B0B0'
         fontSize: 12
-        cornerRadius: 5
+        cornerRadius: 8
       letterDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
         fontSize: 25
-        cornerRadius: 5
+        cornerRadius: 8
       fnDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFFFFFFF'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFFFFFFF'
-        fontSize: 17
-        cornerRadius: 5
+        fontSize: 20
+        cornerRadius: 8
       tabDark:
         buttonBackgroundColor: '0xFF6E6C6C'
         buttonForegroundColor: '0xFFB2AEAE'
         pressedButtonBackgroundColor: '0xFF8E8C8E'
         pressedButtonForegroundColor: '0xFFB2AEAE'
         fontSize: 15
-        cornerRadius: 5
+        cornerRadius: 8
     rows:
       - keys:
           - { action: { symbol: { char: "🏁" } }, width: { percentage: 0.125 }, lightModeStyleName: letter, darkModeStyleName: letterDark }
@@ -1535,7 +1539,7 @@ keyboards:
       - keys:
           - action: { keyboardType: iOS原生 }
             label: "双拼"
-            width: { percentage: 0.111 }
+            width: { percentage: 0.12 }
             lightModeStyleName: fn
             darkModeStyleName: fnDark
           - { action: { keyboardType: iOS原生表情 }, label: { systemImageName: face.smiling }, width: { percentage: 0.077 }, lightModeStyleName: tab, darkModeStyleName: tabDark }
