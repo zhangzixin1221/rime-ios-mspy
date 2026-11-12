@@ -45,6 +45,9 @@ keyboards:
         fontSize: 17
         cornerRadius: 5
       space:                                         # 空格：淡灰小字「双」水印（原生实测 #B0B0B0 左右）
+                                                     # 原生「双」贴空格右端；label 居中绘制，故在 label 文本前
+                                                     # 垫 16 个全角空格（U+3000，每个=fontSize 12pt）把字形右推
+                                                     # 约 96pt。若你的机型宽度比例不同，改这个空格数即可微调。
         buttonBackgroundColor: '0xFFFFFFFF'
         buttonForegroundColor: '0xFFB0B0B0'
         pressedButtonBackgroundColor: '0xFFDBD6D6'
@@ -210,7 +213,7 @@ keyboards:
             darkModeStyleName: fnDark
           - action: space
             width: available
-            label: { text: "双" }
+            label: { text: "　　　　　　　　　　　　　　　　双" }
             lightModeStyleName: space
             darkModeStyleName: spaceDark
           - action: enter
@@ -320,7 +323,7 @@ keyboards:
             darkModeStyleName: fnDark
           - action: space
             width: available
-            label: { text: "双" }
+            label: { text: "　　　　　　　　　　　　　　　　双" }
             lightModeStyleName: space
             darkModeStyleName: spaceDark
           - action: enter
@@ -431,7 +434,7 @@ keyboards:
             darkModeStyleName: fnDark
           - action: space
             width: available
-            label: { text: "双" }
+            label: { text: "　　　　　　　　　　　　　　　　双" }
             lightModeStyleName: space
             darkModeStyleName: spaceDark
           - action: enter
